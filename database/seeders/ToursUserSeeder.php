@@ -18,7 +18,7 @@ class ToursUserSeeder extends Seeder
         //     $table->foreignId('tours_level_id')->constrained();
         ToursUser::factory()->create([
             "user_id" => 1,
-            "tours_level_id" => 4,
+            "tours_level_id" => 5,
         ]);
         ToursUser::factory()->create([
             "user_id" => 1,
@@ -26,7 +26,7 @@ class ToursUserSeeder extends Seeder
         ]);
         ToursUser::factory()->create([
             "user_id" => 1,
-            "tours_level_id" => 7,
+            "tours_level_id" => 9,
         ]);
     }
 }

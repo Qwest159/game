@@ -25,7 +25,7 @@ Route::middleware([
 
     Route::get('/tour_info/{id}', [TourController::class, 'index'])->name('tour_info');
     // Route::get('/tour_info/edit/{gold}/{tour}', [TourController::class, "edit"])->name('tour_info.edit');
-    Route::post('/tour_info/update/{tour_up}/{tour_actuel}/{gold_user}', [TourController::class, "update"])->name('tour_info.update');
+    Route::post('/tour_info/update/{id_tour_user}/{id_tour_up}/{gold_requis}', [TourController::class, "update"])->name('tour_info.update');
     // ----- Chambre-----
     // Route::get('/cure_tour', [AdminChambreController::class, 'index'])->name('cure_chambre');
     // Route::get('/cure_chambre/create', [AdminChambreController::class, "create"])->name('cure_chambre.create');

@@ -34,6 +34,7 @@ class TourController extends Controller
         return Inertia::render('Tour/Tour_info', [
             'tour_perso' => $tour_perso,
             'tour_niveau' => $tour_niveau,
+            'tours_user_id' => $id->id,
             'gold' => $user->gold,
         ]);
 
@@ -81,44 +82,44 @@ class TourController extends Controller
     //     ]);
     // }
 
-    public function update(ToursLevel $tour_up, $tour_actuel, $gold_user)
+    public function update(ToursUser $id_tour_user, $id_tour_up, $gold_requis)
     {
+        // dd($id_tour_up);
         // $tour_up est la tour améliorer
         // Gate::authorize('update', Cure::class);
 
-        if ($gold_user >= $tour_up->gold_requis) {
+        $gold_user = Auth::user();
 
+        if ($gold_user->gold >= $gold_requis && $id_tour_up) {
             // reduit gold
-            $gold_restant = $gold_user -  $tour_up->gold_requis;
+            $id_tour_user->tours_level_id = $id_tour_up;
+            $id_tour_user->update();
 
-            //connexion
-            $user = Auth::user();
-            $tour_up_user = ToursUser::where('tours_level_id', $tour_actuel)->where('user_id', $user->id)->first();
-
-
-            // changement
-            if ($tour_up->id) {
-                $tour_up_user->tours_level_id = $tour_up->id;
-                $tour_up_user->update();
-
-                $user->gold = $gold_restant;
-                $user->update();
-            }
-
-
-
-            return redirect()->back();
-
+            $gold_user->gold -= $gold_requis;
+            $gold_user->update();
 
             // $user::update([
             //     'gold' => $gold_restant,
             // ]);
 
-
-            // changement de la tour de l'user
-
         }
-        // validation
+        return redirect()->back();
+    }
+    // public function destroy($id)
+    // {
+    //     Gate::authorize('destroy', Cure::class);
+
+    //     // Gate::authorize('delete', $article);
+    //     $Chambre = Chambre::findOrFail($id);
+    //     $Chambre->delete();
+
+    //     return redirect()->back();
+    // }
+}
+
+
+
+     // validation
         // $validatedData = $request->validate([
         //     'nom' => 'required|string|max:15|min:1',
         //     'img_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -146,15 +147,3 @@ class TourController extends Controller
         // $Chambre->save();
 
         // return redirect()->back();
-    }
-    // public function destroy($id)
-    // {
-    //     Gate::authorize('destroy', Cure::class);
-
-    //     // Gate::authorize('delete', $article);
-    //     $Chambre = Chambre::findOrFail($id);
-    //     $Chambre->delete();
-
-    //     return redirect()->back();
-    // }
-}

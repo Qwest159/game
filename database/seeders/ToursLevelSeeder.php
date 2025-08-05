@@ -38,7 +38,14 @@ class ToursLevelSeeder extends Seeder
             'gold_requis' => 800,
             'tour_id' => 1,
         ]);
-
+        ToursLevel::factory()->create([
+            'niveau' => 4,
+            'hp' => 5,
+            'att' => 14,
+            'def' => 5,
+            'gold_requis' => 1000,
+            'tour_id' => 1,
+        ]);
 
         ToursLevel::factory()->create([
             'niveau' => 1,
@@ -62,6 +69,14 @@ class ToursLevelSeeder extends Seeder
             'att' => 5,
             'def' => 11,
             'gold_requis' => 800,
+            'tour_id' => 2,
+        ]);
+        ToursLevel::factory()->create([
+            'niveau' => 4,
+            'hp' => 6,
+            'att' => 5,
+            'def' => 13,
+            'gold_requis' => 1000,
             'tour_id' => 2,
         ]);
 
@@ -89,7 +104,14 @@ class ToursLevelSeeder extends Seeder
             'gold_requis' => 800,
             'tour_id' => 3,
         ]);
-
+        ToursLevel::factory()->create([
+            'niveau' => 4,
+            'hp' => 14,
+            'att' => 5,
+            'def' => 5,
+            'gold_requis' => 1000,
+            'tour_id' => 3,
+        ]);
 
         ToursLevel::factory()->create([
             'niveau' => 1,
@@ -115,7 +137,14 @@ class ToursLevelSeeder extends Seeder
             'gold_requis' => 800,
             'tour_id' => 4,
         ]);
-
+        ToursLevel::factory()->create([
+            'niveau' => 4,
+            'hp' => 8,
+            'att' => 8,
+            'def' => 8,
+            'gold_requis' => 1000,
+            'tour_id' => 4,
+        ]);
 
         ToursLevel::factory()->create([
             'niveau' => 1,
@@ -139,6 +168,15 @@ class ToursLevelSeeder extends Seeder
             'att' => 3,
             'def' => 14,
             'gold_requis' => 800,
+            'tour_id' => 5,
+        ]);
+
+        ToursLevel::factory()->create([
+            'niveau' => 4,
+            'hp' => 5,
+            'att' => 5,
+            'def' => 14,
+            'gold_requis' => 1000,
             'tour_id' => 5,
         ]);
     }

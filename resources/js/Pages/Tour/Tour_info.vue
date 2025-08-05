@@ -2,15 +2,19 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import tableau_niv_coul from "@/Components/NiveauCouleur.vue";
 import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
 
 // const props = defineProps(["date_dispo"]);
-const props = defineProps(["tour_perso", "tour_niveau", "gold"]);
-console.log(props.tour_perso, props.tour_niveau);
+const props = defineProps([
+    "tours_user_id",
+    "tour_perso",
+    "tour_niveau",
+    "gold",
+]);
+console.log();
 
 let form = useForm({
-    tour_up: props.tour_niveau?.id,
-    tour_actuel: props.tour_perso.id,
-    gold_user: props.gold,
+    id_tour_user: props.tours_user_id,
 });
 
 // console.log(tour_niveau[tour_perso.niveau]);
@@ -108,9 +112,9 @@ let form = useForm({
                     @submit.prevent="
                         form.post(
                             route('tour_info.update', {
-                                tour_up: form.tour_up,
-                                tour_actuel: form.tour_actuel,
-                                gold_user: form.gold_user,
+                                id_tour_user: form.id_tour_user,
+                                id_tour_up: props.tour_niveau.id,
+                                gold_requis: props.tour_niveau.gold_requis,
                             })
                         )
                     "
