@@ -38,12 +38,12 @@ nav {
 main#accueil figcaption {
     display: none;
     position: absolute;
+    @apply rounded-xl;
 }
 figcaption {
     background-color: rgb(255, 255, 255);
     z-index: 2;
     padding: 1em;
-    @apply rounded-xl;
 }
 figcaption span#niveau {
     @apply text-center;
@@ -95,7 +95,6 @@ figure.fig2:hover figcaption {
     display: block !important;
     position: absolute !important;
     left: 6vw;
-    /* background-color: red; */
 }
 
 /* -------- TOUR3 ---------- */
@@ -105,7 +104,6 @@ figure.fig3 {
     position: absolute !important;
     top: 39vh;
     left: 26vw;
-    /* background-color: red; */
     cursor: pointer;
     height: 30%;
 }
@@ -122,7 +120,6 @@ figure.chateau {
     position: absolute !important;
     top: 12vh;
     left: 33vw;
-    /* background-color: red; */
     cursor: pointer;
     width: 19vw;
     height: 5vh;

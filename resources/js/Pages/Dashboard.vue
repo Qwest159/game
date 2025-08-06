@@ -59,14 +59,14 @@ const props = defineProps(["tours", "tours_id_user"]);
                 <img
                     id="porte_fermer"
                     src="storage/ville/porte_fermer.png"
-                    @click="() => $inertia.get(route('tour_info'))"
+                    @click="() => $inertia.get(route('outside'))"
                     alt=""
                 />
                 <img
                     id="porte_ouverte"
                     src="storage/ville/porte_ouverte.png"
                     alt=""
-                    @click="() => $inertia.get(route('tour_info'))"
+                    @click="() => $inertia.get(route('outside'))"
                 />
             </figure>
             <figure class="chateau">

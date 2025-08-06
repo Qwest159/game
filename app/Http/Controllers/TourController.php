@@ -50,19 +50,6 @@ class TourController extends Controller
         //     'tour_niveau' => $tour_niveau,
         //     'gold' => $gold,
         // ]);
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AccueilController;
+use App\Http\Controllers\OutsideController;
 use App\Http\Controllers\TourController;
+use App\Models\Outside;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,11 +23,14 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/accueil', [AccueilController::class, 'index'])->name('accueil');
-
+    // ---------- TOUR------------
 
     Route::get('/tour_info/{id}', [TourController::class, 'index'])->name('tour_info');
-    // Route::get('/tour_info/edit/{gold}/{tour}', [TourController::class, "edit"])->name('tour_info.edit');
     Route::post('/tour_info/update/{id_tour_user}/{id_tour_up}/{gold_requis}', [TourController::class, "update"])->name('tour_info.update');
+
+    // --------- OUTSIDE ----------
+    Route::get('/outside', [OutsideController::class, 'index'])->name('outside');
+
     // ----- Chambre-----
     // Route::get('/cure_tour', [AdminChambreController::class, 'index'])->name('cure_chambre');
     // Route::get('/cure_chambre/create', [AdminChambreController::class, "create"])->name('cure_chambre.create');

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\CaractMonstre;
+use App\Models\Role;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,7 +20,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'gold' => 14600,
+            'gold' => 5600,
+            'role_id' => 1,
         ]);
 
 
@@ -27,6 +30,11 @@ class DatabaseSeeder extends Seeder
             TourSeeder::class,
             ToursLevelSeeder::class,
             ToursUserSeeder::class,
+            HeroSeeder::class,
+            RoleSeeder::class,
+            MonstreSeeder::class,
+            CaractMonstreSeeder::class,
+            OutsideSeeder::class,
         ]);
     }
 }
