@@ -15,18 +15,21 @@ class ToursUserSeeder extends Seeder
     public function run(): void
     {
         //   $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        //     $table->foreignId('tours_level_id')->constrained();
+        //     $table->foreignId('caract_tour_id')->constrained();
         ToursUser::factory()->create([
             "user_id" => 1,
-            "tours_level_id" => 5,
+            "caract_tour_id" => 5,
+            "hp_restant" => 5,
         ]);
         ToursUser::factory()->create([
             "user_id" => 1,
-            "tours_level_id" => 1,
+            "caract_tour_id" => 1,
+            "hp_restant" => 3,
         ]);
         ToursUser::factory()->create([
             "user_id" => 1,
-            "tours_level_id" => 9,
+            "caract_tour_id" => 9,
+            "hp_restant" => 8,
         ]);
     }
 }

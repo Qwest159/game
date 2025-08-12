@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('heroes', function (Blueprint $table) {
             $table->id();
+            $table->string('img_path');
+            $table->string('role');
+            $table->string('portrait');
             $table->integer('niveau');
-            $table->integer('hp');
-            $table->integer('att');
-            $table->integer('def');
-            $table->integer('exp');
+            $table->integer('hp_restant');
+            $table->integer('exp_restant');
+            $table->foreignId('caract_hero_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

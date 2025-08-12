@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+
 use App\Models\CaractMonstre;
 use App\Models\Role;
 use App\Models\User;
@@ -21,20 +22,23 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'gold' => 5600,
-            'role_id' => 1,
         ]);
 
 
         $this->call([
             // RolesTableSeeder::class,
             TourSeeder::class,
-            ToursLevelSeeder::class,
+            CaractTourSeeder::class,
             ToursUserSeeder::class,
+            CaractHeroSeeder::class,
             HeroSeeder::class,
             RoleSeeder::class,
             MonstreSeeder::class,
             CaractMonstreSeeder::class,
             OutsideSeeder::class,
+            AttaqueSeeder::class,
+            PersonnageSeeder::class,
+            AttaqueUserSeeder::class,
         ]);
     }
 }

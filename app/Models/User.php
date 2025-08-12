@@ -64,4 +64,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function attaques()
+    {
+        return $this->belongsToMany(Attaque::class, 'attaque_users', 'attaque_id', 'user_id');
+    }
 }

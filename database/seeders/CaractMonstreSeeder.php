@@ -41,5 +41,40 @@ class CaractMonstreSeeder extends Seeder
             'def' => 6,
             'exp' => 400,
         ]);
+        CaractMonstre::factory()->create([
+            'niveau' => 5,
+            'hp' => 9,
+            'att' => 11,
+            'def' => 7,
+            'exp' => 500,
+        ]);
+        CaractMonstre::factory()->create([
+            'niveau' => 6,
+            'hp' => 10,
+            'att' => 11,
+            'def' => 9,
+            'exp' => 600,
+        ]);
+        CaractMonstre::factory()->create([
+            'niveau' => 7,
+            'hp' => 10,
+            'att' => 12,
+            'def' => 11,
+            'exp' => 700,
+        ]);
+        CaractMonstre::factory()->create([
+            'niveau' => 8,
+            'hp' => 10,
+            'att' => 15,
+            'def' => 11,
+            'exp' => 800,
+        ]);
+        CaractMonstre::factory()->create([
+            'niveau' => 9,
+            'hp' => 12,
+            'att' => 15,
+            'def' => 12,
+            'exp' => 900,
+        ]);
     }
 }

@@ -14,28 +14,25 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         Role::factory()->create([
-            'img_path' => '/hero/guerrier1.png',
             'role' => 'Guerrier',
-            'portrait' => '/hero/portrait_guerrier1.png',
-            'hero_id' => 1
+            'upgrade' => 'Chevalier',
+            'niveau_requis' => 5,
         ]);
+
         Role::factory()->create([
-            'img_path' => '/hero/guerrier2.png',
-            'role' => 'Guerrier',
-            'portrait' => '/hero/portrait_guerrier1.png',
-            'hero_id' => 1
-        ]);
-        Role::factory()->create([
-            'img_path' => '/hero/magicien.png',
             'role' => 'Magicien',
-            'portrait' => '/hero/portrait_magicien.png',
-            'hero_id' => 5
+            'upgrade' => 'Savant',
+            'niveau_requis' => 10,
         ]);
         Role::factory()->create([
-            'img_path' => '/hero/magicien.png',
-            'role' => 'Magicien',
-            'portrait' => '/hero/portrait_magicien.png',
-            'hero_id' => 5
+            'role' => 'Chevalier',
+            'upgrade' => 'Paladin',
+            'niveau_requis' => 5,
+        ]);
+        Role::factory()->create([
+            'role' => 'Savant',
+            'upgrade' => 'Alchimiste',
+            'niveau_requis' => 10,
         ]);
     }
 }

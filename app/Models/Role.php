@@ -9,8 +9,9 @@ class Role extends Model
 {
     /** @use HasFactory<\Database\Factories\RoleFactory> */
     use HasFactory;
-    public function hero()
+
+    public function attaques()
     {
-        return $this->belongsTo(Hero::class);
+        return $this->hasMany(Attaque::class);
     }
 }

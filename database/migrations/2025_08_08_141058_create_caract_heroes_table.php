@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tours_levels', function (Blueprint $table) {
+        Schema::create('caract_heroes', function (Blueprint $table) {
             $table->id();
             $table->integer('niveau');
             $table->integer('hp');
             $table->integer('att');
             $table->integer('def');
-            $table->integer('gold_requis');
-            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
+            $table->integer('exp_requis');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tours_levels');
+        Schema::dropIfExists('caract_heroes');
     }
 };

@@ -9,16 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-
-
-
     public function up(): void
     {
-        Schema::create('tours_users', function (Blueprint $table) {
+        Schema::create('caract_tours', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('caract_tour_id')->constrained();
-            $table->integer('hp_restant');
+            $table->integer('niveau');
+            $table->integer('hp');
+            $table->integer('att');
+            $table->integer('def');
+            $table->integer('gold_requis');
+            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tours_users');
+        Schema::dropIfExists('caract_tours');
     }
 };

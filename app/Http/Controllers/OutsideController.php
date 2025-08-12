@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attaque;
+use App\Models\AttaqueUser;
+use App\Models\CaractMonstre;
 use App\Models\Hero;
+use App\Models\Monstre;
+use App\Models\Outside;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -14,12 +20,24 @@ class OutsideController extends Controller
     {
 
         // ajoute monstre
+        $user_id = Auth::user()->id;
+        $hero_user = Hero::where('user_id', $user_id)->with('caract_hero')->first();
+        $monstre = Monstre::all();
+        $carac_monst =  CaractMonstre::all();
+        $outside_map = Outside::select('id', 'img_path')->limit(9)->get();
 
-        $hero_user = Role::where('id', Auth::user()->role_id)->with('hero')->first();
+        $attaques_user = Attaque::whereHas('users', function ($query) {
+
+            $query->where('attaque_users.user_id', Auth::user()->id);
+        })->get();
 
         // Retourner la vue avec les données
         return Inertia::render('Outside/Index', [
             'hero_user' => $hero_user,
+            'monstre' => $monstre,
+            'carac_monst' => $carac_monst,
+            'outside_map' => $outside_map,
+            'attaques_user' => $attaques_user,
         ]);
     }
 }

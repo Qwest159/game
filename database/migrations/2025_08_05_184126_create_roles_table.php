@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('img_path');
-            $table->foreignId('hero_id')->constrained()->onDelete('cascade');
-            $table->string('portrait');
             $table->string('role');
+            $table->string('upgrade');
+            $table->integer('niveau_requis');
             $table->timestamps();
         });
     }

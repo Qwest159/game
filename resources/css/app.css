@@ -20,6 +20,60 @@
     z-index: 98;
     background-color: red;
 } */
+@media (max-width: 1024px) {
+    main#outside {
+        grid-template-columns: 6em auto !important;
+    }
+    table {
+        padding: 0.3em !important;
+        font-size: small;
+    }
+    table td#niveau {
+        border: 2px black solid !important;
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 15px !important;
+    }
+    table .non {
+        font-size: 12px;
+        padding: 0 !important;
+    }
+    tr:not(.non) {
+        @apply grid;
+        @apply grid-cols-2;
+    }
+    table tr:not(.non) td:nth-of-type(1) {
+        @apply font-bold;
+        font-size: 12px;
+    }
+    table tr:not(.non) td:nth-of-type(2) {
+        @apply pl-2;
+        font-size: 12px;
+    }
+
+    main#accueil tr,
+    figure p {
+        @apply text-sm;
+    }
+
+    /* ------ COMBAT ------ */
+
+    section#combat figure,
+    section#combat article {
+        width: 50vw !important;
+    }
+    main#outside section:nth-of-type(2) figure.carte {
+        gap: 0px !important;
+    }
+
+    main#outside section:nth-of-type(2) figure.carte p {
+        position: absolute;
+        top: -2px !important;
+        left: 4.5vw !important;
+    }
+}
+
+/* ------FIN RESPONSIVE -------- */
 h2 {
     padding: 0.5em 0;
     @apply text-3xl;
@@ -35,18 +89,22 @@ nav {
 #contenu {
     position: relative !important;
 }
-main#accueil figcaption {
+main#accueil table {
     display: none;
     position: absolute;
     @apply rounded-xl;
 }
-figcaption {
+table {
     background-color: rgb(255, 255, 255);
     z-index: 2;
     padding: 1em;
+    display: grid;
 }
-figcaption span#niveau {
-    @apply text-center;
+tbody {
+    display: grid;
+}
+table td#niveau {
+    @apply text-center !important;
     @apply font-bold;
     display: block;
     border: 3px black solid;
@@ -54,14 +112,15 @@ figcaption span#niveau {
     margin: auto;
     border-radius: 25px;
 }
-figcaption tr {
-    @apply col-span-2;
+tr:not(.non) {
+    @apply grid;
+    @apply grid-cols-2;
 }
-figcaption td:nth-of-type(1) {
+table td:nth-of-type(1) {
     @apply font-bold;
 }
-figcaption td:nth-of-type(2) {
-    @apply pl-4;
+tr:not(.non) td:nth-of-type(2) {
+    @apply pl-2;
 }
 /* LES TOURS  */
 /* -------- TOUR1 ---------- */
@@ -75,7 +134,7 @@ figcaption td:nth-of-type(2) {
     cursor: pointer;
     height: 30%;
 }
-figure.fig1:hover figcaption {
+figure.fig1:hover table {
     display: block !important;
     position: absolute !important;
     left: 6vw;
@@ -91,7 +150,7 @@ figure.fig2 {
     cursor: pointer;
     height: 30%;
 }
-figure.fig2:hover figcaption {
+figure.fig2:hover table {
     display: block !important;
     position: absolute !important;
     left: 6vw;
@@ -108,7 +167,7 @@ figure.fig3 {
     height: 30%;
 }
 
-figure.fig3:hover figcaption {
+figure.fig3:hover table {
     display: block !important;
     position: absolute !important;
     left: 6vw;
@@ -127,7 +186,7 @@ figure.chateau {
 figure.chateau img {
     height: 25vh;
 }
-figure.fig3:hover figcaption {
+figure.fig3:hover table {
     display: block !important;
     position: absolute !important;
     left: 6vw;
@@ -162,7 +221,7 @@ figure.porte:focus #porte_ouverte {
 
 main#update figure {
     border: solid black;
-    padding: 2em;
+    padding: 0.5em 2em;
     @apply rounded-xl;
 }
 main#update img {
@@ -174,4 +233,71 @@ section.ameliorations img {
 }
 section.ameliorations p {
     @apply text-sm;
+}
+
+main#outside {
+    @apply grid;
+    @apply grid-cols-2;
+    grid-template-columns: 10em auto;
+}
+main#outside section:nth-of-type(1) {
+    @apply mx-3;
+}
+main#outside section:nth-of-type(2) {
+    margin: auto;
+    width: 55vw;
+    gap: 1em;
+}
+main#outside section:nth-of-type(2) figure.carte {
+    position: relative;
+    margin: auto;
+}
+main#outside section:nth-of-type(2) figure.carte p {
+    position: absolute;
+    top: 0;
+    left: 7.1vw;
+    @apply font-bold;
+}
+section#combat figure,
+section#combat article {
+    /* max-width: 55vw; */
+    width: 55vw;
+}
+
+/* -------------  COMBAT --------------- */
+#arene_combat {
+    background-color: red;
+}
+#barre_attaque button {
+    padding: 0.2vw;
+    border: 3px solid black;
+    margin: 0.2vw;
+}
+
+#hero {
+    position: absolute;
+    bottom: 7vh;
+    left: 13vw;
+    width: 7vw;
+}
+
+/* -------APErCU DES MONSTrE -------- */
+.monstre {
+    width: 5vw;
+    position: absolute;
+}
+#monstre0 {
+    bottom: 13vh;
+    right: 15vw;
+}
+#monstre1 {
+    bottom: 8vh;
+    right: 9vw;
+}
+#monstre2 {
+    bottom: 2vh;
+    right: 15vw;
+}
+.monstre_choisi {
+    @apply w-6;
 }

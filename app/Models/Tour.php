@@ -9,8 +9,8 @@ class Tour extends Model
 {
     /** @use HasFactory<\Database\Factories\TourFactory> */
     use HasFactory;
-    public function tourlevel()
+    public function caract_tour()
     {
-        return $this->belongsTo(ToursLevel::class);
+        return $this->hasMany(CaractTour::class);
     }
 }

@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Welcome from "@/Components/Welcome.vue";
-import tableau_niv_coul from "@/Components/NiveauCouleur.vue";
+import tableau_niv_coul from "@/Components/CouleurNiveau.vue";
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 const props = defineProps(["tours", "tours_id_user"]);
@@ -31,28 +31,32 @@ const props = defineProps(["tours", "tours_id_user"]);
                     "
                 />
 
-                <figcaption class="">
-                    <p class="text-xl font pb-2">
-                        <span class="font-bold">Niveau</span>
-                        <span
-                            id="niveau"
-                            :class="tableau_niv_coul[tour.niveau]"
-                            >{{ tour.niveau }}</span
-                        >
-                    </p>
-                    <tr>
-                        <td>HP</td>
-                        <td>{{ tour.hp }}</td>
-                    </tr>
-                    <tr>
-                        <td>ATT</td>
-                        <td>{{ tour.att }}</td>
-                    </tr>
-                    <tr>
-                        <td>DEF</td>
-                        <td>{{ tour.def }}</td>
-                    </tr>
-                </figcaption>
+                <table class="rounded-b-xl text-lg">
+                    <tbody>
+                        <tr class="non text-xl font-bold pb-2 m-auto">
+                            <td class="font-bold text-center">Niveau</td>
+                            <td
+                                :class="tableau_niv_coul[tour.niveau]"
+                                id="niveau"
+                            >
+                                {{ tour.niveau }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>HP</td>
+                            <td>{{ tour.hp }}</td>
+                        </tr>
+                        <tr>
+                            <td>ATT</td>
+                            <td>{{ tour.att }}</td>
+                        </tr>
+                        <tr>
+                            <td>DEF</td>
+                            <td>{{ tour.def }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </figure>
 
             <figure class="porte">
@@ -76,10 +80,6 @@ const props = defineProps(["tours", "tours_id_user"]);
                     alt=""
                     @click="() => $inertia.get(route('tour_info'))"
                 />
-                <figcaption>
-                    <p class="">salut</p>
-                    <p class="">salut</p>
-                </figcaption>
             </figure>
         </main>
     </AppLayout>

@@ -19,5 +19,39 @@ class OutsideSeeder extends Seeder
         Outside::factory()->create([
             'img_path' => '/outside/montagne.png',
         ]);
+
+
+
+        // A EFFACER
+        Outside::factory()->create([
+            'img_path' => '/outside/plaine.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/montagne.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/plaine.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/montagne.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/plaine.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/montagne.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/plaine.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/montagne.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/plaine.png',
+        ]);
+        Outside::factory()->create([
+            'img_path' => '/outside/montagne.png',
+        ]);
     }
 }
