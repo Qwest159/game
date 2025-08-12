@@ -2,7 +2,9 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import tableau_niv_coul from "@/Components/CouleurNiveau.vue";
 import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, defineProps, defineEmits } from "@vue/runtime-core";
+
+// const emit = defineEmits(["mont"]);
 
 import Combat from "@/Pages/Outside/Combat.vue";
 
@@ -13,7 +15,7 @@ const props = defineProps([
     "outside_map",
     "attaques_user",
 ]);
-let attribut = ["feu", "eau", "plante", "terre"];
+let attribut = ["feu", "eau", "plante", "electrique"];
 
 let tableau_mystere = ref([]);
 let niveau_bataille = ref(0);
@@ -33,7 +35,7 @@ for (let index = 0; index < 9; index++) {
     for (let nbr_monstre = 0; nbr_monstre < 3; nbr_monstre++) {
         tableau_monstre_carte.value[index].monstre_choisi[nbr_monstre] = {
             ...props.monstre[Math.floor(Math.random() * props.monstre.length)],
-            ...props.carac_monst[index + 2],
+            ...props.carac_monst[index],
             ...{ type: attribut[Math.floor(Math.random() * attribut.length)] },
         };
         // (tableau_mystere.value[index].carac_monst_choisi[nbr_monstre] =
@@ -41,6 +43,7 @@ for (let index = 0; index < 9; index++) {
         //     type[Math.floor(Math.random() * type.length)];
     }
 }
+
 // console.log(type[Math.floor(Math.random() * type.length)]);
 
 // for (let index = 1; index < 10; index++) {
@@ -54,14 +57,12 @@ for (let index = 0; index < 9; index++) {
 // }
 
 let form = useForm({});
+console.log(tableau_mystere.value);
 
 // console.log(tour_niveau[hero_user.niveau]);
-console.log(tableau_monstre_carte.value);
 
 function combat_user(index) {
-    console.log(index);
-
-    niveau_bataille.value = props.outside_map[index];
+    niveau_bataille.value = [props.outside_map[index], index];
     tableau_monstre = tableau_monstre_carte.value[index];
 
     montrer_bataille.value = true;
@@ -152,12 +153,15 @@ function combat_user(index) {
             class="element"
             :attaques_user="props.attaques_user"
             :hero_user="props.hero_user"
-            s
             :tableau_monstre_carte="tableau_monstre"
             :niveau_bataille="niveau_bataille"
             @info_hp="hp_hero = $event"
             @info_xp="xp_hero = $event"
-            @info_id_bataille="id_bataille = $event"
+            @montrer_bataille="
+                (montrer_bataille = $event[0]),
+                    (tableau_mystere[$event[1].index].img_mystere =
+                        $event[1].img)
+            "
         />
     </AppLayout>
 </template>

@@ -266,7 +266,7 @@ section#combat article {
 
 /* -------------  COMBAT --------------- */
 #arene_combat {
-    background-color: red;
+    /* background-color: red; */
 }
 #barre_attaque button {
     padding: 0.2vw;

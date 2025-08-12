@@ -4,7 +4,7 @@ import tableau_att_coul from "@/Components/CouleurAttaque.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref, defineProps, defineEmits } from "@vue/runtime-core";
 
-// const emit = defineEmits(["ref_devis_disparait"]);
+const emit = defineEmits(["montrer_bataille"]);
 
 const props = defineProps([
     "hero_user",
@@ -12,17 +12,55 @@ const props = defineProps([
     "niveau_bataille",
     "tableau_monstre_carte",
 ]);
+
 let open_attaque = ref(false);
 let open_sac = ref(false);
+// ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+// let attaque_choisi = ref(0);
 let attaque_choisi = ref(1);
-let form = useForm({});
+// let form = useForm({});
+let tableau_combat_monstre = ref(props.tableau_monstre_carte.monstre_choisi);
+console.log(props.niveau_bataille[1]);
 
-// console.log(props.carac_monst);
+function combat(index_monstre_choisi, comp_hero = 5) {
+    // ----DONNEE ----
+    let monstre_choisi = tableau_combat_monstre.value[index_monstre_choisi];
+    let hero_caract = props.hero_user.caract_hero;
+    let hero_hp = props.hero_user.hp_restant;
+    console.log(tableau_combat_monstre.value);
 
-function combat(index_monstre_choisi) {
-    // attaque_choisi.value = 0;
+    // ----COMBAT----
+    let attaque_totale = hero_caract.att + comp_hero;
+    let att_restant = attaque_totale - monstre_choisi.def;
+    if (att_restant > 0) {
+        monstre_choisi.hp -= att_restant;
+    } else {
+        console.log("Votre attaque est insufisante");
+    }
+    console.log(props.niveau_bataille);
 
-    console.log(index_monstre_choisi);
+    // ----RESULTAT----
+    // Monstre avec hp à 0 => supprimer
+    if (monstre_choisi.hp <= 0) {
+        delete tableau_combat_monstre.value[index_monstre_choisi];
+    }
+
+    // Condition de victoire
+    if (Object.keys(tableau_combat_monstre.value).length === 0) {
+        console.log("GAGNE");
+        emit("montrer_bataille", [
+            false,
+            {
+                index: props.niveau_bataille[1],
+                img: props.niveau_bataille[0].img_path,
+            },
+        ]);
+    }
+
+    // console.log(
+    //     tableau_combat_monstre.value,
+    //     tableau_combat_monstre.value.length
+    // );
 }
 </script>
 
@@ -31,7 +69,7 @@ function combat(index_monstre_choisi) {
         <figure id="arene_combat" class="m-auto relative pt-11">
             <img
                 class="w-full"
-                :src="`storage${props.niveau_bataille.img_path}`"
+                :src="`storage${props.niveau_bataille[0].img_path}`"
                 alt=""
             />
             <img id="hero" :src="`storage${props.hero_user.img_path}`" alt="" />
@@ -45,7 +83,7 @@ function combat(index_monstre_choisi) {
             />
         </figure>
         <article id="barre_attaque" class="bg-gray-700 m-auto mt-2 p-1">
-            <!-- <div
+            <div
                 v-if="attaque_choisi === 0 && !open_attaque"
                 class="grid grid-cols-2"
             >
@@ -65,20 +103,21 @@ function combat(index_monstre_choisi) {
                 >
                     {{ attaque.nom }}, {{ attaque.att }}
                 </button>
-            </div> -->
+            </div>
             <div v-if="attaque_choisi > 0" class="grid grid-cols-2">
                 <button
                     class="flex bg-white justify-center"
-                    v-for="(monstre, index) in props.monstre"
+                    v-for="(monstre, index) in tableau_combat_monstre"
                     @click="combat(index)"
                     :class="`button_choisi${index}`"
                 >
-                    <p>Monstre {{ index }}</p>
+                    <p>Monstre {{ Number(index) + 1 }}</p>
                     <img
                         :src="`storage${monstre.img_path}`"
                         class="monstre_choisi"
                         alt=""
                     />
+                    <p>{{ monstre.hp }}</p>
                 </button>
             </div>
         </article>

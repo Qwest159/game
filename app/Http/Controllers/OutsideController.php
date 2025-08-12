@@ -22,9 +22,9 @@ class OutsideController extends Controller
         // ajoute monstre
         $user_id = Auth::user()->id;
         $hero_user = Hero::where('user_id', $user_id)->with('caract_hero')->first();
-        $monstre = Monstre::all();
-        $carac_monst =  CaractMonstre::all();
-        $outside_map = Outside::select('id', 'img_path')->limit(9)->get();
+        $monstre = Monstre::select('img_path')->get();
+        $carac_monst =  CaractMonstre::select('id', 'hp', 'att', 'def', 'exp', 'niveau')->get();
+        $outside_map = Outside::select('img_path')->limit(9)->get();
 
         $attaques_user = Attaque::whereHas('users', function ($query) {
 
