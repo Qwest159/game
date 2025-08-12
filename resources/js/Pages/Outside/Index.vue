@@ -15,7 +15,7 @@ const props = defineProps([
     "outside_map",
     "attaques_user",
 ]);
-let attribut = ["feu", "eau", "plante", "electrique"];
+let attribut = ["feu", "eau", "plante", "électrique"];
 
 let tableau_mystere = ref([]);
 let niveau_bataille = ref(0);
@@ -155,12 +155,10 @@ function combat_user(index) {
             :hero_user="props.hero_user"
             :tableau_monstre_carte="tableau_monstre"
             :niveau_bataille="niveau_bataille"
-            @info_hp="hp_hero = $event"
-            @info_xp="xp_hero = $event"
-            @montrer_bataille="
-                (montrer_bataille = $event[0]),
-                    (tableau_mystere[$event[1].index].img_mystere =
-                        $event[1].img)
+            @info_hp_et_xp="hp_hero = $event"
+            @montrer_bataille="montrer_bataille = $event"
+            @gagner_combat="
+                tableau_mystere[$event[1].index].img_mystere = $event[1].img
             "
         />
     </AppLayout>

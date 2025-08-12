@@ -37,7 +37,7 @@ class AttaqueSeeder extends Seeder
         ]);
         Attaque::factory()->create([
             'nom' => "Épée d'éclair",
-            'type' => 'electrique',
+            'type' => 'électrique',
             'role_id' => 1,
             'niveau' => 1,
             'att' => 1,

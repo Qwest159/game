@@ -4,6 +4,6 @@ export default {
     feu: "plante",
     plante: "eau",
     eau: "feu",
-    electrique: "eau",
+    électrique: "eau",
 };
 </script>

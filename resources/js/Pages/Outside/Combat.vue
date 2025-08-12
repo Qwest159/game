@@ -12,55 +12,72 @@ const props = defineProps([
     "niveau_bataille",
     "tableau_monstre_carte",
 ]);
-
+let texte = ref("");
 let open_attaque = ref(false);
 let open_sac = ref(false);
 // ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-// let attaque_choisi = ref(0);
-let attaque_choisi = ref(1);
+let attaque_choisi = ref(-1);
+// let attaque_choisi = ref(1);
 // let form = useForm({});
 let tableau_combat_monstre = ref(props.tableau_monstre_carte.monstre_choisi);
-console.log(props.niveau_bataille[1]);
 
-function combat(index_monstre_choisi, comp_hero = 5) {
+function message(texte_recu) {
+    texte.value = texte_recu;
+
+    setTimeout(() => {
+        texte.value = null;
+    }, 5000);
+}
+
+function combat(index_monstre_choisi) {
     // ----DONNEE ----
     let monstre_choisi = tableau_combat_monstre.value[index_monstre_choisi];
     let hero_caract = props.hero_user.caract_hero;
     let hero_hp = props.hero_user.hp_restant;
-    console.log(tableau_combat_monstre.value);
 
-    // ----COMBAT----
-    let attaque_totale = hero_caract.att + comp_hero;
+    // ----COMBAT DU HERO----
+    let attaque_totale = hero_caract.att + attaque_choisi.value;
     let att_restant = attaque_totale - monstre_choisi.def;
+
     if (att_restant > 0) {
         monstre_choisi.hp -= att_restant;
     } else {
         console.log("Votre attaque est insufisante");
     }
-    console.log(props.niveau_bataille);
+
+    message(
+        `Attaque du héro : ${attaque_totale}, Franchi le bouclier ${att_restant}, hp monstre ${monstre_choisi.hp}`
+    );
 
     // ----RESULTAT----
     // Monstre avec hp à 0 => supprimer
     if (monstre_choisi.hp <= 0) {
         delete tableau_combat_monstre.value[index_monstre_choisi];
     }
+    // -----------remise par défaut----------
+    attaque_choisi.value = -1;
 
-    // Condition de victoire
+    // Condition de victoire (tous les monstre tués)
+    // ----------GAGNER--------
     if (Object.keys(tableau_combat_monstre.value).length === 0) {
-        console.log("GAGNE");
-        emit("montrer_bataille", [
-            false,
-            {
-                index: props.niveau_bataille[1],
-                img: props.niveau_bataille[0].img_path,
-            },
-        ]);
-    }
+        console.log("GAGNER");
 
-    // console.log(
-    //     tableau_combat_monstre.value,
-    //     tableau_combat_monstre.value.length
-    // );
+        emit("gagner_combat", {
+            index: props.niveau_bataille[1],
+            img: props.niveau_bataille[0].img_path,
+        });
+
+        emit("montrer_bataille", false);
+    }
+    // ----------ATTAQUE DU MONSTRE ------------
+    // Condition pour perdre (hp du hero en dessous de °)
+
+    if (hero_hp <= 0) {
+        console.log("PERDU");
+    }
+}
+function fuite() {
+    emit("montrer_bataille", false);
 }
 </script>
 
@@ -73,38 +90,58 @@ function combat(index_monstre_choisi, comp_hero = 5) {
                 alt=""
             />
             <img id="hero" :src="`storage${props.hero_user.img_path}`" alt="" />
-            <img
+            <div
                 v-for="(monstre, index) in props.tableau_monstre_carte
                     .monstre_choisi"
-                :src="`storage${monstre.img_path}`"
-                :id="`monstre${index}`"
-                class="monstre"
-                alt=""
-            />
+            >
+                <img
+                    :src="`storage${monstre.img_path}`"
+                    :id="`monstre${index}`"
+                    class="monstre"
+                    alt=""
+                />
+                <article
+                    :id="`donnee_monstre${index}`"
+                    :class="tableau_att_coul[monstre.type]"
+                    class="info_monstre"
+                >
+                    <h3>Monstre {{ Number(index) + 1 }}</h3>
+                    <div class="caract_monstre">
+                        <p>HP: {{ monstre.hp }}</p>
+                        <p>ATT: {{ monstre.att }}</p>
+                        <p>DEF: {{ monstre.def }}</p>
+                        <p>{{ monstre.type }}</p>
+                    </div>
+                </article>
+            </div>
         </figure>
         <article id="barre_attaque" class="bg-gray-700 m-auto mt-2 p-1">
-            <div
-                v-if="attaque_choisi === 0 && !open_attaque"
-                class="grid grid-cols-2"
-            >
-                <button @click="open_attaque = true" class="bg-white">
+            <div v-if="attaque_choisi < 0 && !texte" class="grid grid-cols-2">
+                <button @click="attaque_choisi = 0" class="bg-white">
                     Attaque</button
                 ><button @click="open_sac = true" class="bg-white">Sac</button
                 ><button class="bg-white">Truc</button
-                ><button class="bg-white">Fuite</button>
+                ><button @click="fuite()" class="bg-white">Fuite</button>
             </div>
-            <div v-if="open_attaque" class="grid grid-cols-2 z-10">
+            <div
+                v-if="attaque_choisi === 0"
+                class="grid grid-cols-2 z-10 relative"
+            >
+                <button @click="attaque_choisi = -1" class="z-20 retour">
+                    Retour
+                </button>
                 <button
                     v-for="attaque in attaques_user"
                     :class="tableau_att_coul[attaque.type]"
-                    @click="
-                        (attaque_choisi = attaque.att), (open_attaque = false)
-                    "
+                    @click="attaque_choisi = attaque.att"
                 >
                     {{ attaque.nom }}, {{ attaque.att }}
                 </button>
             </div>
-            <div v-if="attaque_choisi > 0" class="grid grid-cols-2">
+            <div v-if="attaque_choisi > 0" class="grid grid-cols-2 relative">
+                <button @click="attaque_choisi = -1" class="z-20 retour">
+                    Retour
+                </button>
                 <button
                     class="flex bg-white justify-center"
                     v-for="(monstre, index) in tableau_combat_monstre"
@@ -119,6 +156,11 @@ function combat(index_monstre_choisi, comp_hero = 5) {
                     />
                     <p>{{ monstre.hp }}</p>
                 </button>
+            </div>
+            <div class="">
+                <p class="text-red-600 z-30">
+                    {{ texte }}
+                </p>
             </div>
         </article>
 

@@ -59,7 +59,7 @@
     /* ------ COMBAT ------ */
 
     section#combat figure,
-    section#combat article {
+    section#combat article:not(.info_monstre) {
         width: 50vw !important;
     }
     main#outside section:nth-of-type(2) figure.carte {
@@ -70,6 +70,43 @@
         position: absolute;
         top: -2px !important;
         left: 4.5vw !important;
+    }
+    button.retour {
+        position: absolute;
+        @apply bg-red-500;
+        left: 20.5vw !important;
+        top: 4vh !important;
+    }
+
+    /* ----- STAT MONSTRE --- */
+    .info_monstre {
+        padding: 0em !important;
+        font-size: 3px;
+        position: absolute;
+    }
+
+    .caract_monstre {
+        min-width: 150px !important;
+    }
+    h3 {
+        @apply text-sm !important;
+        border-bottom: solid 3px !important;
+    }
+    #donnee_monstre0 {
+        right: -20.49vw !important;
+        top: 19vh !important;
+    }
+    #donnee_monstre1 {
+        right: -20.49vw !important;
+        top: 38vh !important;
+    }
+    #donnee_monstre2 {
+        right: -20.49vw !important;
+        top: 57vh !important;
+    }
+    #donnee_monstre3 {
+        right: -20.49vw !important;
+        top: 76vh !important;
     }
 }
 
@@ -255,11 +292,11 @@ main#outside section:nth-of-type(2) figure.carte {
 main#outside section:nth-of-type(2) figure.carte p {
     position: absolute;
     top: 0;
-    left: 7.1vw;
+    left: 6.9vw;
     @apply font-bold;
 }
 section#combat figure,
-section#combat article {
+section#combat article:not(.info_monstre) {
     /* max-width: 55vw; */
     width: 55vw;
 }
@@ -300,4 +337,49 @@ section#combat article {
 }
 .monstre_choisi {
     @apply w-6;
+}
+
+button.retour {
+    position: absolute;
+    @apply bg-red-500;
+    left: 25.1vw;
+    top: 3vh;
+}
+
+/* --------INFO CARACTERISTIQUE MONSTRE--------- */
+
+.info_monstre {
+    padding: 0.5em;
+    position: absolute;
+}
+.caract_monstre {
+    display: grid;
+    @apply grid-cols-2;
+    padding: 0.3em;
+    @apply font-bold;
+}
+.caract_monstre {
+    min-width: 190px;
+}
+h3 {
+    text-align: center;
+    @apply font-bold;
+    @apply text-lg;
+    border-bottom: solid 5px;
+}
+#donnee_monstre0 {
+    right: -13.45vw;
+    top: 12vh;
+}
+#donnee_monstre1 {
+    right: -13.45vw;
+    top: 28vh;
+}
+#donnee_monstre2 {
+    right: -13.45vw;
+    top: 44vh;
+}
+#donnee_monstre3 {
+    right: -13.45vw;
+    top: 60vh;
 }
