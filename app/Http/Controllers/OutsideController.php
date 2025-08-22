@@ -11,6 +11,7 @@ use App\Models\Outside;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -39,5 +40,25 @@ class OutsideController extends Controller
             'outside_map' => $outside_map,
             'attaques_user' => $attaques_user,
         ]);
+    }
+    public function partir(Request $request)
+    {
+        // RECOIT L'OBJET GAIN (contient le butin du joueur)
+        $validatedData = $request->validate([
+            'gain.exp' => 'required|int',
+            'gain.or' => 'required|int',
+        ]);
+        $user = User::select('id', 'gold')->where('id', Auth::user()->id)->with('heroes')->first();
+
+
+        // ATTENTION SI PLUSIEURS HERO !!!!!
+        $user->gold += $validatedData['gain']['or'];
+        $user->update();
+
+        $user->heroes[0]->exp_restant += $validatedData['gain']['exp'];
+        $user->heroes[0]->update();
+
+        // Retourner la vue avec les données
+        return redirect()->route('accueil');
     }
 }

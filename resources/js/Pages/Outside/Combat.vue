@@ -1,10 +1,12 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import tableau_att_coul from "@/Components/CouleurAttaque.vue";
+import tableau_niv_coul from "@/Components/CouleurNiveau.vue";
+
 import { useForm } from "@inertiajs/vue3";
 import { ref, defineProps, defineEmits } from "@vue/runtime-core";
 
-const emit = defineEmits(["montrer_bataille"]);
+const emit = defineEmits(["carte_info", "gain_gagne_combat"]);
 
 const props = defineProps([
     "hero_user",
@@ -12,31 +14,98 @@ const props = defineProps([
     "niveau_bataille",
     "tableau_monstre_carte",
 ]);
-let texte = ref("");
+
+let texte = ref([]);
 let open_attaque = ref(false);
 let open_sac = ref(false);
 // ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 let attaque_choisi = ref(-1);
+let exp_gagne_total = 0;
+let hp_hero = ref(props.hero_user.hp_restant);
+
 // let attaque_choisi = ref(1);
 // let form = useForm({});
 let tableau_combat_monstre = ref(props.tableau_monstre_carte.monstre_choisi);
 
-function message(texte_recu) {
-    texte.value = texte_recu;
-
+function message(attaque_totale, att_restant, monstre_choisi) {
+    texte.value[0] = `Attaque du héros : ${attaque_totale}`;
+    texte.value[1] = `Franchit la défense ${att_restant},`;
+    texte.value[2] = ` ${
+        monstre_choisi.hp > 0 ? `HP du monstre: ${monstre_choisi.hp}` : "Mort"
+    }`;
     setTimeout(() => {
-        texte.value = null;
-    }, 5000);
+        texte.value = [];
+    }, 3000);
 }
 
 function combat(index_monstre_choisi) {
     // ----DONNEE ----
     let monstre_choisi = tableau_combat_monstre.value[index_monstre_choisi];
     let hero_caract = props.hero_user.caract_hero;
-    let hero_hp = props.hero_user.hp_restant;
 
+    combat_hero(
+        hero_caract,
+        attaque_choisi,
+        monstre_choisi,
+        index_monstre_choisi
+    );
+    // ----RESULTAT----
+    // Monstre avec hp à 0 => supprimer
+
+    // Condition de victoire (tous les monstre tués)
+    // ----------GAGNER--------
+    if (Object.keys(tableau_combat_monstre.value).length === 0) {
+        console.log("GAGNER");
+
+        emit("carte_info", {
+            index: props.niveau_bataille[1],
+            img: props.niveau_bataille[0].img_path,
+            montrer_bataille: null,
+        });
+        emit("gain_gagne_combat", {
+            hp_restant: hp_hero.value,
+            gain_gagne: { or: exp_gagne_total, exp: exp_gagne_total },
+        });
+    }
+
+    // ----partie monstre ------
+    hp_hero.value = combat_monstre(
+        hero_caract.def,
+        hp_hero.value,
+        tableau_combat_monstre.value
+    );
+
+    // -----------remise par défaut les options du joueur----------
+    attaque_choisi.value = -1;
+
+    // ----------ATTAQUE DU MONSTRE ------------
+    // Condition pour perdre (hp du hero en dessous de 0)
+
+    if (hp_hero.value <= 0) {
+        console.log("PERDU");
+        emit("gain_gagne_combat", {
+            hp_restant: hp_hero.value,
+            gain_gagne: { or: 0, exp: 0 },
+        });
+        emit("carte_info", {
+            index: props.niveau_bataille[1],
+            img: "outside/mystere.png",
+            montrer_bataille: false,
+        });
+    }
+}
+
+// --------------- FUNCTION POUR COMBAT ------------
+function combat_hero(
+    hero_caract,
+    attaque_choisi,
+    monstre_choisi,
+    index_monstre_choisi
+) {
     // ----COMBAT DU HERO----
     let attaque_totale = hero_caract.att + attaque_choisi.value;
+    // let attaque_totale = 0;
+
     let att_restant = attaque_totale - monstre_choisi.def;
 
     if (att_restant > 0) {
@@ -45,44 +114,110 @@ function combat(index_monstre_choisi) {
         console.log("Votre attaque est insufisante");
     }
 
-    message(
-        `Attaque du héro : ${attaque_totale}, Franchi le bouclier ${att_restant}, hp monstre ${monstre_choisi.hp}`
-    );
-
-    // ----RESULTAT----
-    // Monstre avec hp à 0 => supprimer
     if (monstre_choisi.hp <= 0) {
+        exp_gagne_total +=
+            tableau_combat_monstre.value[index_monstre_choisi].exp;
         delete tableau_combat_monstre.value[index_monstre_choisi];
     }
-    // -----------remise par défaut----------
-    attaque_choisi.value = -1;
 
-    // Condition de victoire (tous les monstre tués)
-    // ----------GAGNER--------
-    if (Object.keys(tableau_combat_monstre.value).length === 0) {
-        console.log("GAGNER");
+    message(attaque_totale, att_restant, monstre_choisi);
+}
 
-        emit("gagner_combat", {
-            index: props.niveau_bataille[1],
-            img: props.niveau_bataille[0].img_path,
-        });
-
-        emit("montrer_bataille", false);
-    }
-    // ----------ATTAQUE DU MONSTRE ------------
-    // Condition pour perdre (hp du hero en dessous de °)
-
-    if (hero_hp <= 0) {
-        console.log("PERDU");
-    }
+function combat_monstre(def_hero, hp_hero, tableau_monstre) {
+    Object.values(tableau_monstre).forEach((monstre) => {
+        // let att_restant = monstre.att - def_hero;
+        let att_restant = 1;
+        if (att_restant > 0) {
+            hp_hero -= att_restant;
+        } else {
+            console.log("Défense réussie");
+        }
+        console.log(hp_hero, att_restant);
+        if (hp_hero <= 0) {
+            return (hp_hero = 0);
+        }
+    });
+    return hp_hero;
 }
 function fuite() {
-    emit("montrer_bataille", false);
+    emit("gain_gagne_combat", {
+        hp_restant: hp_hero.value,
+        gain_gagne: { or: exp_gagne_total, exp: exp_gagne_total },
+    });
+    emit("carte_info", {
+        index: props.niveau_bataille[1],
+        img: "outside/mystere.png",
+        montrer_bataille: false,
+    });
 }
 </script>
 
 <template>
     <section id="combat" class="h-full w-full absolute bg-black top-0">
+        <article id="info_hero" class="absolute left-10 top-16">
+            <figure class="">
+                <img
+                    class="rounded-t-xl w-full"
+                    :src="`/storage${hero_user.portrait}`"
+                    alt=""
+                />
+                <!-- <div class="bg-white p-2">
+                    <h1>GAIN TOTAL</h1>
+                    <p>exp :{{ exp_gagne_total }}</p>
+                </div> -->
+                <table class="rounded-b-xl">
+                    <tbody>
+                        <tr class="non text-xl font m-auto pb-2">
+                            <td class="">{{ hero_user.role }}</td>
+                        </tr>
+                        <tr class="non text-xl font pb-2 m-auto">
+                            <td class="font-bold text-center">Niveau</td>
+                            <td
+                                :class="tableau_niv_coul[hero_user.niveau]"
+                                id="niveau"
+                            >
+                                {{ hero_user.niveau }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="self-center">HP</td>
+                            <td class="text-center">
+                                <p class="border-b-2 border-black">
+                                    {{ hp_hero }}
+                                </p>
+                                <p>{{ hero_user.caract_hero.hp }}</p>
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td>ATT</td>
+                            <td class="text-center">
+                                {{ hero_user.caract_hero.att }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>DEF</td>
+                            <td class="text-center">
+                                {{ hero_user.caract_hero.def }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="self-center">EXP</td>
+                            <td class="text-center">
+                                <p class="border-b-2 border-black">
+                                    {{ hero_user.exp_restant }}
+                                </p>
+
+                                <p class="">
+                                    {{ hero_user.caract_hero.exp_requis }}
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </figure>
+        </article>
+
         <figure id="arene_combat" class="m-auto relative pt-11">
             <img
                 class="w-full"
@@ -116,7 +251,10 @@ function fuite() {
             </div>
         </figure>
         <article id="barre_attaque" class="bg-gray-700 m-auto mt-2 p-1">
-            <div v-if="attaque_choisi < 0 && !texte" class="grid grid-cols-2">
+            <div
+                v-if="attaque_choisi < 0 && !texte[0]"
+                class="grid grid-cols-2"
+            >
                 <button @click="attaque_choisi = 0" class="bg-white">
                     Attaque</button
                 ><button @click="open_sac = true" class="bg-white">Sac</button
@@ -154,12 +292,12 @@ function fuite() {
                         class="monstre_choisi"
                         alt=""
                     />
-                    <p>{{ monstre.hp }}</p>
+                    <p class="pl-2">HP: {{ monstre.hp }}</p>
                 </button>
             </div>
-            <div class="">
-                <p class="text-red-600 z-30">
-                    {{ texte }}
+            <div id="message" v-if="texte[0]">
+                <p class="text-white" v-for="(textes, index) in texte">
+                    {{ textes }}
                 </p>
             </div>
         </article>
@@ -170,52 +308,5 @@ function fuite() {
             >
                 ❌
             </p> -->
-
-        <!-- <section class="flex justify-between gap-6 top-16 left-0 absolute">
-                <p>JE SUIS COMBAT</p>
-                <figure class="">
-                    <img
-                        class="w-full rounded-t-xl"
-                        :src="`/storage${hero_user.portrait}`"
-                        alt=""
-                    />
-
-                    <table class="rounded-b-xl">
-                        <tr class="non justify-self-center font-bold mb-2">
-                            {{
-                                hero_user.role
-                            }}
-                        </tr>
-
-                        <tr class="non text-xl font pb-2 text-center">
-                            <span class="font-bold">Niveau</span>
-                            <span
-                                :class="tableau_niv_coul[hero_user.hero.niveau]"
-                                id="niveau"
-                                >{{ hero_user.hero.niveau }}</span
-                            >
-                        </tr>
-
-                        <tr class="">
-                            <td>HP</td>
-                            <td>{{ hero_user.hero.hp }}</td>
-                        </tr>
-                        <tr>
-                            <td>ATT</td>
-                            <td>{{ hero_user.hero.att }}</td>
-                        </tr>
-                        <tr>
-                            <td>DEF</td>
-                            <td>{{ hero_user.hero.def }}</td>
-                        </tr>
-                        <tr>
-                            <td>EXP</td>
-                            <td>{{ hero_user.hero.exp }}</td>
-                        </tr>
-                    </table>
-                </figure>
-            </section> -->
-
-        <!-- <section class="bg-white w-6/12 h-3/6 m-auto"></section> -->
     </section>
 </template>

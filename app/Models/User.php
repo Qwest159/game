@@ -69,4 +69,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Attaque::class, 'attaque_users', 'attaque_id', 'user_id');
     }
+    public function heroes()
+    {
+        return $this->hasMany(Hero::class);
+    }
 }

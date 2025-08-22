@@ -30,8 +30,8 @@
     }
     table td#niveau {
         border: 2px black solid !important;
-        width: 28px !important;
-        height: 28px !important;
+        width: 27px !important;
+        height: 27px !important;
         border-radius: 15px !important;
     }
     table .non {
@@ -58,9 +58,14 @@
 
     /* ------ COMBAT ------ */
 
-    section#combat figure,
-    section#combat article:not(.info_monstre) {
+    section#combat figure#arene_combat,
+    section#combat article:not(.info_monstre, #info_hero) {
         width: 50vw !important;
+    }
+    #info_hero tr,
+    #info_hero td p {
+        font-size: small;
+        line-height: 18px;
     }
     main#outside section:nth-of-type(2) figure.carte {
         gap: 0px !important;
@@ -107,6 +112,17 @@
     #donnee_monstre3 {
         right: -20.49vw !important;
         top: 76vh !important;
+    }
+    #message p {
+        font-size: 15px;
+        line-height: 10px;
+    }
+    article#gain {
+        position: absolute !important;
+        top: 16vh;
+        left: 13vw;
+        font-size: 12px;
+        line-height: 20px;
     }
 }
 
@@ -265,6 +281,57 @@ main#update img {
     margin: auto;
 }
 
+article#gain {
+    background-color: white;
+    @apply p-2;
+    @apply mt-2;
+    @apply rounded-xl;
+}
+
+.partir_gain {
+    animation: partir_gain 3s infinite;
+    border: solid 5px;
+}
+
+@keyframes partir_gain {
+    0% {
+        border-color: red;
+    }
+    25% {
+        border-color: rgb(162, 255, 0);
+    }
+    50% {
+        border-color: rgb(255, 230, 0);
+    }
+    75% {
+        border-color: rgb(52, 3, 245);
+    }
+    100% {
+        border-color: rgb(0, 255, 255);
+    }
+}
+.partir_gain button {
+    animation: partir_gain_text 3s infinite;
+}
+
+@keyframes partir_gain_text {
+    0% {
+        color: rgb(0, 0, 0);
+    }
+    25% {
+        color: rgb(162, 255, 0);
+    }
+    50% {
+        color: rgb(255, 230, 0);
+    }
+    75% {
+        color: rgb(52, 3, 245);
+    }
+    100% {
+        color: rgb(0, 255, 255);
+    }
+}
+
 section.ameliorations img {
     height: 65px;
 }
@@ -295,13 +362,17 @@ main#outside section:nth-of-type(2) figure.carte p {
     left: 6.9vw;
     @apply font-bold;
 }
-section#combat figure,
-section#combat article:not(.info_monstre) {
+section#combat figure#arene_combat,
+section#combat article:not(.info_monstre, #info_hero) {
     /* max-width: 55vw; */
     width: 55vw;
 }
 
 /* -------------  COMBAT --------------- */
+
+table#info_hero_combat {
+}
+
 #arene_combat {
     /* background-color: red; */
 }
@@ -318,7 +389,7 @@ section#combat article:not(.info_monstre) {
     width: 7vw;
 }
 
-/* -------APErCU DES MONSTrE -------- */
+/* -------APERCU DES MONSTrE -------- */
 .monstre {
     width: 5vw;
     position: absolute;
@@ -328,12 +399,16 @@ section#combat article:not(.info_monstre) {
     right: 15vw;
 }
 #monstre1 {
-    bottom: 8vh;
+    bottom: 13vh;
     right: 9vw;
 }
 #monstre2 {
     bottom: 2vh;
     right: 15vw;
+}
+#monstre3 {
+    bottom: 2vh;
+    right: 9vw;
 }
 .monstre_choisi {
     @apply w-6;

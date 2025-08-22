@@ -30,7 +30,7 @@ Route::middleware([
 
     // --------- OUTSIDE ----------
     Route::get('/outside', [OutsideController::class, 'index'])->name('outside');
-
+    Route::post('/outside/partir/', [OutsideController::class, 'partir'])->name('partir');
     // ----- Chambre-----
     // Route::get('/cure_tour', [AdminChambreController::class, 'index'])->name('cure_chambre');
     // Route::get('/cure_chambre/create', [AdminChambreController::class, "create"])->name('cure_chambre.create');

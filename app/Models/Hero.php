@@ -14,4 +14,8 @@ class Hero extends Model
     {
         return $this->belongsTo(CaractHero::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
