@@ -27,19 +27,44 @@ let hp_hero = ref(props.hero_user.hp_restant);
 // let form = useForm({});
 let tableau_combat_monstre = ref(props.tableau_monstre_carte.monstre_choisi);
 
-function message(attaque_totale, att_restant, monstre_choisi) {
-    texte.value[0] = `Attaque du héros : ${attaque_totale}`;
-    texte.value[1] = `Franchit la défense ${att_restant},`;
+function message_hero(att_restant, monstre_choisi) {
+    texte.value[0] = `Partie Héro `;
+    texte.value[1] = `${
+        att_restant > 0
+            ? `Franchit la défense et attaque avec : ${att_restant}`
+            : `Défense réussie du monstre`
+    },`;
     texte.value[2] = ` ${
-        monstre_choisi.hp > 0 ? `HP du monstre: ${monstre_choisi.hp}` : "Mort"
+        monstre_choisi.hp > 0
+            ? `HP du monstre: ${monstre_choisi.hp}`
+            : "Mort du monstre"
+    }`;
+    // setTimeout(() => {
+    //     texte.value = [];
+    // }, 3000);
+}
+let message_attente = [];
+function message_monstre(def_hero, att_restant, hp_hero, index) {
+    message_attente[index] = `Partie Monstre : `;
+    message_attente[index] += `${
+        att_restant > 0
+            ? `Franchit la défense et attaque le héro avec: ${att_restant} / `
+            : `Défense réussie du héro`
+    },`;
+    message_attente[index] += ` ${
+        hp_hero > 0 ? `HP restant: ${hp_hero}` : "Mort du héro"
     }`;
     setTimeout(() => {
+        texte.value = message_attente;
+    }, 4000);
+    setTimeout(() => {
         texte.value = [];
-    }, 3000);
+    }, 8000);
 }
 
 function combat(index_monstre_choisi) {
     // ----DONNEE ----
+    texte.value = [];
     let monstre_choisi = tableau_combat_monstre.value[index_monstre_choisi];
     let hero_caract = props.hero_user.caract_hero;
 
@@ -103,8 +128,8 @@ function combat_hero(
     index_monstre_choisi
 ) {
     // ----COMBAT DU HERO----
-    let attaque_totale = hero_caract.att + attaque_choisi.value;
-    // let attaque_totale = 0;
+    // let attaque_totale = hero_caract.att + attaque_choisi.value;
+    let attaque_totale = 0;
 
     let att_restant = attaque_totale - monstre_choisi.def;
 
@@ -120,19 +145,22 @@ function combat_hero(
         delete tableau_combat_monstre.value[index_monstre_choisi];
     }
 
-    message(attaque_totale, att_restant, monstre_choisi);
+    message_hero(att_restant, monstre_choisi);
 }
 
 function combat_monstre(def_hero, hp_hero, tableau_monstre) {
-    Object.values(tableau_monstre).forEach((monstre) => {
+    Object.values(tableau_monstre).forEach((monstre, index) => {
         // let att_restant = monstre.att - def_hero;
-        let att_restant = 1;
+        let att_restant = 0;
         if (att_restant > 0) {
             hp_hero -= att_restant;
         } else {
             console.log("Défense réussie");
         }
-        console.log(hp_hero, att_restant);
+        console.log(index);
+
+        message_monstre(def_hero, att_restant, hp_hero, index);
+
         if (hp_hero <= 0) {
             return (hp_hero = 0);
         }
@@ -295,7 +323,7 @@ function fuite() {
                     <p class="pl-2">HP: {{ monstre.hp }}</p>
                 </button>
             </div>
-            <div id="message" v-if="texte[0]">
+            <div id="message" v-if="texte">
                 <p class="text-white" v-for="(textes, index) in texte">
                     {{ textes }}
                 </p>

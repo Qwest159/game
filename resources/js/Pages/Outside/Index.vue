@@ -16,16 +16,16 @@ const props = defineProps([
     "attaques_user",
 ]);
 let attribut = ["feu", "eau", "plante", "électrique"];
-
+// nombre de monstre sur le champ de bataille
 let difficulte_nbr_monstre = [1, 1, 1, 2, 2, 2, 3, 3, 4];
-console.log(difficulte_nbr_monstre);
-
+// let difficulte_nbr_monstre = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 let tableau_mystere = ref([]);
 let niveau_bataille = ref(0);
 let carte_cible = ref();
 let tableau_monstre_carte = ref([]);
 let gain = ref({ or: 0, exp: 0 });
 let tableau_monstre = [];
+let tous_carte_reussi = [];
 
 for (let index = 0; index < 9; index++) {
     tableau_mystere.value[index] = {
@@ -57,11 +57,9 @@ function combat_user(index) {
         tableau_mystere.value[index].montrer_bataille != null &&
         props.hero_user.hp_restant > 0
     ) {
-        console.log("oui");
         niveau_bataille.value = [props.outside_map[index], index];
         tableau_monstre = tableau_monstre_carte.value[index];
         tableau_mystere.value[index].montrer_bataille = true;
-        console.log(typeof index);
 
         carte_cible.value = index;
     } else if (props.hero_user.hp_restant === 0) {
@@ -151,7 +149,10 @@ function message(texte) {
                 <article
                     id="gain"
                     :class="
-                        props.hero_user.hp_restant === 0 ? 'partir_gain' : ''
+                        props.hero_user.hp_restant === 0 ||
+                        tous_carte_reussi.length === 9
+                            ? 'partir_gain'
+                            : ''
                     "
                 >
                     <h1 class="text-center font-bold border-b-2 border-black">
@@ -210,7 +211,8 @@ function message(texte) {
             @carte_info="
                 (tableau_mystere[$event.index].img_mystere = $event.img),
                     (tableau_mystere[$event.index].montrer_bataille =
-                        $event.montrer_bataille)
+                        $event.montrer_bataille),
+                    tous_carte_reussi.push($event.index)
             "
         />
     </AppLayout>
