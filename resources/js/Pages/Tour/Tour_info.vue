@@ -13,7 +13,6 @@ const props = defineProps([
     "tour_niveau",
     "gold",
 ]);
-console.log();
 
 function succes() {
     click_button.value = false;
@@ -26,8 +25,6 @@ function succes() {
         {
             onSuccess: () => {
                 click_button.value = true;
-
-                console.log(click_button.value);
 
                 // Réinitialise après 5 secondes l'affichage du bouton
                 // setTimeout(() => {

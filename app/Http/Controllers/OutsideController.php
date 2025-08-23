@@ -47,6 +47,8 @@ class OutsideController extends Controller
         $validatedData = $request->validate([
             'gain.exp' => 'required|int',
             'gain.or' => 'required|int',
+            'gain.hp_restant' => 'required|int',
+
         ]);
         $user = User::select('id', 'gold')->where('id', Auth::user()->id)->with('heroes')->first();
 
@@ -55,7 +57,10 @@ class OutsideController extends Controller
         $user->gold += $validatedData['gain']['or'];
         $user->update();
 
+
         $user->heroes[0]->exp_restant += $validatedData['gain']['exp'];
+        $user->heroes[0]->hp_restant = $validatedData['gain']['hp_restant'];
+
         $user->heroes[0]->update();
 
         // Retourner la vue avec les données

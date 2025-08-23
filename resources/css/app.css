@@ -115,7 +115,7 @@
     }
     #message p {
         font-size: 15px;
-        line-height: 10px;
+        line-height: 16px;
     }
     article#gain {
         position: absolute !important;
@@ -457,4 +457,8 @@ h3 {
 #donnee_monstre3 {
     right: -13.45vw;
     top: 60vh;
+}
+
+#message p:nth-of-type(1) {
+    @apply font-extrabold;
 }

@@ -2,6 +2,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import tableau_att_coul from "@/Components/CouleurAttaque.vue";
 import tableau_niv_coul from "@/Components/CouleurNiveau.vue";
+import tableau_att_faibl from "@/Components/AttaqueFaiblesse.vue";
 
 import { useForm } from "@inertiajs/vue3";
 import { ref, defineProps, defineEmits } from "@vue/runtime-core";
@@ -28,7 +29,7 @@ let hp_hero = ref(props.hero_user.hp_restant);
 let tableau_combat_monstre = ref(props.tableau_monstre_carte.monstre_choisi);
 
 function message_hero(att_restant, monstre_choisi) {
-    texte.value[0] = `Partie Héro `;
+    texte.value[0] = `Héro `;
     texte.value[1] = `${
         att_restant > 0
             ? `Franchit la défense et attaque avec : ${att_restant}`
@@ -44,13 +45,13 @@ function message_hero(att_restant, monstre_choisi) {
     // }, 3000);
 }
 let message_attente = [];
-function message_monstre(def_hero, att_restant, hp_hero, index) {
-    message_attente[index] = `Partie Monstre : `;
+function message_monstre(att_restant, hp_hero, index) {
+    message_attente[index] = `Monstre : `;
     message_attente[index] += `${
         att_restant > 0
-            ? `Franchit la défense et attaque le héro avec: ${att_restant} / `
-            : `Défense réussie du héro`
-    },`;
+            ? ` Attaque subie: ${att_restant},`
+            : ` La défense est réussie `
+    }`;
     message_attente[index] += ` ${
         hp_hero > 0 ? `HP restant: ${hp_hero}` : "Mort du héro"
     }`;
@@ -58,6 +59,7 @@ function message_monstre(def_hero, att_restant, hp_hero, index) {
         texte.value = message_attente;
     }, 4000);
     setTimeout(() => {
+        message_attente = [];
         texte.value = [];
     }, 8000);
 }
@@ -75,12 +77,11 @@ function combat(index_monstre_choisi) {
         index_monstre_choisi
     );
     // ----RESULTAT----
-    // Monstre avec hp à 0 => supprimer
 
     // Condition de victoire (tous les monstre tués)
     // ----------GAGNER--------
     if (Object.keys(tableau_combat_monstre.value).length === 0) {
-        console.log("GAGNER");
+        // console.log("GAGNER");
 
         emit("carte_info", {
             index: props.niveau_bataille[1],
@@ -107,7 +108,7 @@ function combat(index_monstre_choisi) {
     // Condition pour perdre (hp du hero en dessous de 0)
 
     if (hp_hero.value <= 0) {
-        console.log("PERDU");
+        // console.log("PERDU");
         emit("gain_gagne_combat", {
             hp_restant: hp_hero.value,
             gain_gagne: { or: 0, exp: 0 },
@@ -127,16 +128,21 @@ function combat_hero(
     monstre_choisi,
     index_monstre_choisi
 ) {
+    let attaque = 0;
     // ----COMBAT DU HERO----
-    // let attaque_totale = hero_caract.att + attaque_choisi.value;
-    let attaque_totale = 0;
+
+    // FAIBLESSE du monstre
+    tableau_att_faibl[monstre_choisi.type] === attaque_choisi.value.type
+        ? (attaque = attaque_choisi.value.att * 2)
+        : (attaque = attaque_choisi.value.att);
+
+    let attaque_totale = hero_caract.att + attaque;
+    // let attaque_totale = 0;
 
     let att_restant = attaque_totale - monstre_choisi.def;
 
     if (att_restant > 0) {
         monstre_choisi.hp -= att_restant;
-    } else {
-        console.log("Votre attaque est insufisante");
     }
 
     if (monstre_choisi.hp <= 0) {
@@ -150,16 +156,13 @@ function combat_hero(
 
 function combat_monstre(def_hero, hp_hero, tableau_monstre) {
     Object.values(tableau_monstre).forEach((monstre, index) => {
-        // let att_restant = monstre.att - def_hero;
-        let att_restant = 0;
+        let att_restant = monstre.att - def_hero;
+        // let att_restant = 0;
         if (att_restant > 0) {
             hp_hero -= att_restant;
-        } else {
-            console.log("Défense réussie");
         }
-        console.log(index);
 
-        message_monstre(def_hero, att_restant, hp_hero, index);
+        message_monstre(att_restant, hp_hero, index);
 
         if (hp_hero <= 0) {
             return (hp_hero = 0);
@@ -299,12 +302,15 @@ function fuite() {
                 <button
                     v-for="attaque in attaques_user"
                     :class="tableau_att_coul[attaque.type]"
-                    @click="attaque_choisi = attaque.att"
+                    @click="attaque_choisi = attaque"
                 >
                     {{ attaque.nom }}, {{ attaque.att }}
                 </button>
             </div>
-            <div v-if="attaque_choisi > 0" class="grid grid-cols-2 relative">
+            <div
+                v-if="attaque_choisi.att > 0"
+                class="grid grid-cols-2 relative"
+            >
                 <button @click="attaque_choisi = -1" class="z-20 retour">
                     Retour
                 </button>

@@ -23,7 +23,7 @@ let tableau_mystere = ref([]);
 let niveau_bataille = ref(0);
 let carte_cible = ref();
 let tableau_monstre_carte = ref([]);
-let gain = ref({ or: 0, exp: 0 });
+let gain = ref({ or: 0, exp: 0, hp_restant: props.hero_user.hp_restant });
 let tableau_monstre = [];
 let tous_carte_reussi = [];
 
@@ -206,6 +206,7 @@ function message(texte) {
             @gain_gagne_combat="
                 (gain.or += $event.gain_gagne.or),
                     (gain.exp += $event.gain_gagne.exp),
+                    (gain.hp_restant = $event.hp_restant),
                     (props.hero_user.hp_restant = $event.hp_restant)
             "
             @carte_info="
