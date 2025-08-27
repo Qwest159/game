@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AccueilController;
+use App\Http\Controllers\ChateauController;
+use App\Http\Controllers\NewAccountController;
 use App\Http\Controllers\OutsideController;
 use App\Http\Controllers\TourController;
+use App\Models\Chateau;
 use App\Models\Outside;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,15 +25,24 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/accueil', [AccueilController::class, 'index'])->name('accueil');
-    // ---------- TOUR------------
+    Route::get('/new', [NewAccountController::class, 'index'])->name('new');
+    Route::post('/new/creation', [NewAccountController::class, 'creation_compte'])->name('creation_compte');
+
+
+    // ---------- TOUR ------------
 
     Route::get('/tour_info/{id}', [TourController::class, 'index'])->name('tour_info');
     Route::post('/tour_info/update/{id_tour_user}/{id_tour_up}/{gold_requis}', [TourController::class, "update"])->name('tour_info.update');
 
+    // ---------- CHATEAU ------------
+    Route::get('/chateau/{id}', [ChateauController::class, 'index'])->name('chateau');
     // --------- OUTSIDE ----------
     Route::get('/outside', [OutsideController::class, 'index'])->name('outside');
     Route::post('/outside/partir/', [OutsideController::class, 'partir'])->name('partir');
+
+
     // ----- Chambre-----
     // Route::get('/cure_tour', [AdminChambreController::class, 'index'])->name('cure_chambre');
     // Route::get('/cure_chambre/create', [AdminChambreController::class, "create"])->name('cure_chambre.create');

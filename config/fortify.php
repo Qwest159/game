@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Fortify\Features;
+use Illuminate\Support\Facades\Auth;
 
 return [
 
@@ -73,7 +74,13 @@ return [
     |
     */
 
-    'home' => '/accueil',
+    'home' => function () {
+        if (Auth::user()->new) {
+            return '/new';
+        }
+        return '/accueil';
+    },
+
 
     /*
     |--------------------------------------------------------------------------

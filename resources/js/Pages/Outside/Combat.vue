@@ -19,7 +19,7 @@ const props = defineProps([
 let texte = ref([]);
 let open_attaque = ref(false);
 let open_sac = ref(false);
-// ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
 let attaque_choisi = ref(-1);
 let exp_gagne_total = 0;
 let hp_hero = ref(props.hero_user.hp_restant);
@@ -57,11 +57,11 @@ function message_monstre(att_restant, hp_hero, index) {
     }`;
     setTimeout(() => {
         texte.value = message_attente;
-    }, 4000);
+    }, 2000);
     setTimeout(() => {
         message_attente = [];
         texte.value = [];
-    }, 8000);
+    }, 5000);
 }
 
 function combat(index_monstre_choisi) {
@@ -128,16 +128,15 @@ function combat_hero(
     monstre_choisi,
     index_monstre_choisi
 ) {
-    let attaque = 0;
     // ----COMBAT DU HERO----
-
+    let attaque_faiblesse = 0;
     // FAIBLESSE du monstre
     tableau_att_faibl[monstre_choisi.type] === attaque_choisi.value.type
-        ? (attaque = attaque_choisi.value.att * 2)
-        : (attaque = attaque_choisi.value.att);
+        ? (attaque_faiblesse = attaque_choisi.value.att * 2)
+        : (attaque_faiblesse = attaque_choisi.value.att);
 
-    let attaque_totale = hero_caract.att + attaque;
-    // let attaque_totale = 0;
+    // let attaque_totale = hero_caract.att + attaque_faiblesse;
+    let attaque_totale = 999;
 
     let att_restant = attaque_totale - monstre_choisi.def;
 

@@ -13,21 +13,21 @@ class AttaqueUserSeeder extends Seeder
      */
     public function run(): void
     {
-        AttaqueUser::factory()->create([
-            "user_id" => 1,
-            "attaque_id" => 1,
-        ]);
-        AttaqueUser::factory()->create([
-            "user_id" => 1,
-            "attaque_id" => 2,
-        ]);
-        AttaqueUser::factory()->create([
-            "user_id" => 1,
-            "attaque_id" => 3,
-        ]);
-        AttaqueUser::factory()->create([
-            "user_id" => 1,
-            "attaque_id" => 4,
-        ]);
+        // AttaqueUser::factory()->create([
+        //     "user_id" => 1,
+        //     "attaque_id" => 1,
+        // ]);
+        // AttaqueUser::factory()->create([
+        //     "user_id" => 1,
+        //     "attaque_id" => 2,
+        // ]);
+        // AttaqueUser::factory()->create([
+        //     "user_id" => 1,
+        //     "attaque_id" => 3,
+        // ]);
+        // AttaqueUser::factory()->create([
+        //     "user_id" => 1,
+        //     "attaque_id" => 4,
+        // ]);
     }
 }

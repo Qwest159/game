@@ -14,4 +14,8 @@ class Role extends Model
     {
         return $this->hasMany(Attaque::class);
     }
+    public function caract_heroes()
+    {
+        return $this->HasMany(CaractHero::class);
+    }
 }

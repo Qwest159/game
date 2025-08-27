@@ -15,6 +15,11 @@ const props = defineProps([
     "outside_map",
     "attaques_user",
 ]);
+
+let form = useForm({
+    gain: { or: 0, exp: 0, hp_restant: props.hero_user.hp_restant },
+});
+
 let attribut = ["feu", "eau", "plante", "électrique"];
 // nombre de monstre sur le champ de bataille
 let difficulte_nbr_monstre = [1, 1, 1, 2, 2, 2, 3, 3, 4];
@@ -23,7 +28,29 @@ let tableau_mystere = ref([]);
 let niveau_bataille = ref(0);
 let carte_cible = ref();
 let tableau_monstre_carte = ref([]);
-let gain = ref({ or: 0, exp: 0, hp_restant: props.hero_user.hp_restant });
+// let message_gain = ref([or]);
+
+let message_gain = {};
+
+function transfo(tableau_gain) {
+    Object.entries(tableau_gain).forEach((value) => {
+        let nom = value[0];
+        let chiffre = String(value[1]);
+        message_gain[nom] = "";
+        for (let index = 0; index < chiffre.length; index++) {
+            console.log(chiffre[index]);
+            message_gain[nom] += chiffre[index];
+            if (
+                (chiffre.length - 1 - index) % 3 === 0 &&
+                chiffre.length - index > 2
+            ) {
+                message_gain[nom] += ",";
+            }
+        }
+    });
+}
+
+let message_afficher = ref("");
 let tableau_monstre = [];
 let tous_carte_reussi = [];
 
@@ -49,9 +76,8 @@ for (let index = 0; index < 9; index++) {
     }
 }
 
-let form = useForm({});
-
 function combat_user(index) {
+    message("");
     // REF carte_cible => Permet d'affichager un index si le hero_hp ou le tableau est bon, sinon message d'erreur correspondant
     if (
         tableau_mystere.value[index].montrer_bataille != null &&
@@ -64,29 +90,34 @@ function combat_user(index) {
         carte_cible.value = index;
     } else if (props.hero_user.hp_restant === 0) {
         message("Vie du Héro insuffisant");
+        timer(2);
     } else if (tableau_mystere.value[index].montrer_bataille === null) {
         message("Combat gagné");
+        timer(2);
     } else {
         message("Victoire ou vie du Héro insuffisant");
+        timer(2);
     }
 }
-
+let temps;
+function timer(duree_message) {
+    clearInterval(temps);
+    temps = setInterval(() => {
+        duree_message--;
+        if (duree_message === 0) {
+            message("");
+            clearInterval(temps);
+        }
+    }, 1000);
+}
 function message(texte) {
-    carte_cible.value = texte;
-    // setTimeout(() => {
-    //     carte_cible.value = "";
-    // }, 3000);
+    message_afficher.value = texte;
 }
 </script>
 
 <template>
     <AppLayout title="Exterieur">
         <main class="h-screen pt-16 bg-black" id="outside">
-            <p
-                class="bg-red-600 w-full text-white font-bold absolute text-2xl text-center"
-            >
-                {{ typeof carte_cible != "number" ? carte_cible : "" }}
-            </p>
             <section class="index_info_hero">
                 <figure class="">
                     <img
@@ -147,6 +178,7 @@ function message(texte) {
                     </tbody>
                 </table>
                 <article
+                    v-if="message_gain.OR"
                     id="gain"
                     :class="
                         props.hero_user.hp_restant === 0 ||
@@ -158,14 +190,18 @@ function message(texte) {
                     <h1 class="text-center font-bold border-b-2 border-black">
                         GAIN TOTAL
                     </h1>
-                    <p>EXP: {{ gain.exp }}</p>
-                    <p>OR: {{ gain.or }}</p>
+                    <p v-for="value in Object.entries(message_gain)">
+                        <span class="fond-bold">{{ value[0] }}</span
+                        >: {{ value[1] }}
+                    </p>
+                    <!-- <p>EXP: {{ form.gain.exp }}</p>
+                    <p>OR: {{ form.gain.or }}</p> -->
                     <button
                         class="bg-red-600 w-full border-2 border-black font-bold rounded-lg text-white"
                         @click="
                             () =>
                                 $inertia.post(route('partir'), {
-                                    gain,
+                                    form,
                                 })
                         "
                     >
@@ -174,14 +210,21 @@ function message(texte) {
                 </article>
             </section>
 
-            <section class="grid grid-cols-3">
+            <section class="grid grid-cols-3 relative">
+                <p
+                    v-if="message_afficher"
+                    id="message_info"
+                    class="bg-red-600 justify-self-center px-2 text-white font-extrabold text-2xl text-center absolute z-10 rounded-xl"
+                >
+                    {{ message_afficher }}
+                </p>
                 <figure
                     v-for="(carte, index) in tableau_mystere"
                     class="carte cursor-pointer"
                     @click="combat_user(index)"
                 >
                     <img
-                        class=""
+                        class="rounded-xl"
                         :src="`storage/${carte.img_mystere}`"
                         alt=""
                     />
@@ -204,9 +247,13 @@ function message(texte) {
             :tableau_monstre_carte="tableau_monstre"
             :niveau_bataille="niveau_bataille"
             @gain_gagne_combat="
-                (gain.or += $event.gain_gagne.or),
-                    (gain.exp += $event.gain_gagne.exp),
-                    (gain.hp_restant = $event.hp_restant),
+                transfo({
+                    OR: form.gain.or + $event.gain_gagne.or,
+                    EXP: form.gain.exp + $event.gain_gagne.exp,
+                }),
+                    (form.gain.or += $event.gain_gagne.or),
+                    (form.gain.exp += $event.gain_gagne.exp),
+                    (form.gain.hp_restant = $event.hp_restant),
                     (props.hero_user.hp_restant = $event.hp_restant)
             "
             @carte_info="

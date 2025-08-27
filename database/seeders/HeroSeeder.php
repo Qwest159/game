@@ -14,15 +14,15 @@ class HeroSeeder extends Seeder
 
     public function run(): void
     {
-        Hero::factory()->create([
-            'img_path' => '/hero/guerrier1.png',
-            'role' => 'Guerrier',
-            'portrait' => '/hero/portrait_guerrier1.png',
-            'niveau' => 1,
-            'hp_restant' => 5,
-            'exp_restant' => 200,
-            'caract_hero_id' => 1,
-            'user_id' => 1,
-        ]);
+        // Hero::factory()->create([
+        //     'img_path' => '/hero/guerrier1.png',
+        //     'role' => 'Guerrier',
+        //     'portrait' => '/hero/portrait_guerrier1.png',
+        //     'niveau' => 1,
+        //     'hp_restant' => 5,
+        //     'exp_restant' => 200,
+        //     'caract_hero_id' => 1,
+        //     'user_id' => 1,
+        // ]);
     }
 }

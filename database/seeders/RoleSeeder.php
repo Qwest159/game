@@ -13,20 +13,24 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+
+        // ----Guerrier----
+
         Role::factory()->create([
             'role' => 'Guerrier',
             'upgrade' => 'Chevalier',
             'niveau_requis' => 5,
         ]);
-
-        Role::factory()->create([
-            'role' => 'Magicien',
-            'upgrade' => 'Savant',
-            'niveau_requis' => 10,
-        ]);
         Role::factory()->create([
             'role' => 'Chevalier',
             'upgrade' => 'Paladin',
+            'niveau_requis' => 10,
+        ]);
+
+        // ----MAGICIEN----
+        Role::factory()->create([
+            'role' => 'Magicien',
+            'upgrade' => 'Savant',
             'niveau_requis' => 5,
         ]);
         Role::factory()->create([

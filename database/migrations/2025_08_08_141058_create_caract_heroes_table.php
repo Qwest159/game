@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('att');
             $table->integer('def');
             $table->integer('exp_requis');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

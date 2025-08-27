@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'gold' => 5600,
+            'new' => true,
         ]);
 
 
@@ -30,9 +31,9 @@ class DatabaseSeeder extends Seeder
             TourSeeder::class,
             CaractTourSeeder::class,
             ToursUserSeeder::class,
-            CaractHeroSeeder::class,
             HeroSeeder::class,
             RoleSeeder::class,
+            CaractHeroSeeder::class,
             MonstreSeeder::class,
             CaractMonstreSeeder::class,
             OutsideSeeder::class,

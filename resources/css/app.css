@@ -119,10 +119,27 @@
     }
     article#gain {
         position: absolute !important;
-        top: 16vh;
-        left: 13vw;
+        @apply max-w-24;
+        top: -2vh;
+        left: 12vw;
         font-size: 12px;
         line-height: 20px;
+        width: 150px;
+        /* padding: 2em !important; */
+    }
+    article#gain p {
+        width: 80px;
+    }
+    #nav_hauteur {
+        @apply h-10;
+    }
+    .index_info_hero {
+        top: -5.4vh !important;
+        position: relative;
+    }
+
+    #message_info {
+        font-size: 16px;
     }
 }
 
@@ -287,10 +304,52 @@ article#gain {
     @apply mt-2;
     @apply rounded-xl;
 }
+article#gain p {
+    text-overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+#message_info {
+    animation: bouge 5s;
+    box-sizing: content-box;
+    top: -8vh;
+}
+
+@keyframes bouge {
+    0% {
+    }
+    10% {
+        top: -9vh;
+    }
+    15% {
+        top: -9.3vh;
+    }
+    20% {
+        top: -9.6vh;
+    }
+    25% {
+        top: -9.9vh;
+        opacity: 0.9;
+    }
+    30% {
+        top: -10.2vh;
+    }
+    35% {
+        top: -10.5vh;
+    }
+    40% {
+        top: -10.8vh;
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
 
 .partir_gain {
     animation: partir_gain 3s infinite;
     border: solid 5px;
+    box-sizing: content-box;
 }
 
 @keyframes partir_gain {
@@ -369,9 +428,6 @@ section#combat article:not(.info_monstre, #info_hero) {
 }
 
 /* -------------  COMBAT --------------- */
-
-table#info_hero_combat {
-}
 
 #arene_combat {
     /* background-color: red; */
@@ -461,4 +517,12 @@ h3 {
 
 #message p:nth-of-type(1) {
     @apply font-extrabold;
+}
+
+/* ---------- NEW ACCOUNT ---------- */
+
+main#newaccount h1 {
+    @apply font-bold;
+    @apply text-2xl;
+    text-align: center;
 }

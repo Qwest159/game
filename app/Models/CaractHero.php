@@ -13,4 +13,8 @@ class CaractHero extends Model
     {
         return $this->HasMany(Hero::class);
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
