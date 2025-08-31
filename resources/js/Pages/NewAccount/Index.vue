@@ -70,7 +70,7 @@ function tableaux_tour(id) {
                 >
                     <img
                         class="m-auto"
-                        :src="`storage ${tour.tour.img_path}`"
+                        :src="`storage/${tour.tour.img_path}`"
                         alt=""
                     />
 
@@ -117,7 +117,7 @@ function tableaux_tour(id) {
                 >
                     <table class="">
                         <tbody>
-                            <tr class="non text-xl font m-auto pb-2">
+                            <tr class="skill text-xl font m-auto pb-2">
                                 <td class="">
                                     <h3>{{ caract_role.role.role }}</h3>
                                 </td>

@@ -38,7 +38,6 @@ function transfo(tableau_gain) {
         let chiffre = String(value[1]);
         message_gain[nom] = "";
         for (let index = 0; index < chiffre.length; index++) {
-            console.log(chiffre[index]);
             message_gain[nom] += chiffre[index];
             if (
                 (chiffre.length - 1 - index) % 3 === 0 &&
@@ -129,10 +128,10 @@ function message(texte) {
 
                 <table class="rounded-b-xl">
                     <tbody>
-                        <tr class="non text-xl font m-auto pb-2">
+                        <tr class="skill text-xl font m-auto pb-2">
                             <td class="">{{ hero_user.role }}</td>
                         </tr>
-                        <tr class="non text-xl font pb-2 m-auto">
+                        <tr class="skill text-xl font pb-2 m-auto">
                             <td class="font-bold text-center">Niveau</td>
                             <td
                                 :class="tableau_niv_coul[hero_user.niveau]"

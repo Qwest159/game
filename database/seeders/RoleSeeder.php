@@ -14,28 +14,47 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
 
-        // ----Guerrier----
+
 
         Role::factory()->create([
             'role' => 'Guerrier',
-            'upgrade' => 'Chevalier',
-            'niveau_requis' => 5,
+            'role_precedent' => NULL,
+            'niveau_requis' => 1,
         ]);
-        Role::factory()->create([
-            'role' => 'Chevalier',
-            'upgrade' => 'Paladin',
-            'niveau_requis' => 10,
-        ]);
-
-        // ----MAGICIEN----
         Role::factory()->create([
             'role' => 'Magicien',
-            'upgrade' => 'Savant',
+            'role_precedent' => NULL,
+            'niveau_requis' => 1,
+        ]);
+
+
+
+
+
+
+
+
+        // ----Guerrier----
+        Role::factory()->create([
+            'role' => 'Chevalier',
+            'role_precedent' => 'Guerrier',
             'niveau_requis' => 5,
         ]);
         Role::factory()->create([
+            'role' => 'Paladin',
+            'role_precedent' => 'Chevalier',
+            'niveau_requis' => 10,
+        ]);
+        // ----MAGICIEN----
+
+        Role::factory()->create([
             'role' => 'Savant',
-            'upgrade' => 'Alchimiste',
+            'role_precedent' => 'Magicien',
+            'niveau_requis' => 5,
+        ]);
+        Role::factory()->create([
+            'role' => 'Alchimiste',
+            'role_precedent' => 'Savant',
             'niveau_requis' => 10,
         ]);
     }

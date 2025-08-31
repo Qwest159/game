@@ -14,6 +14,9 @@ class CaractHeroSeeder extends Seeder
 
     public function run(): void
     {
+
+        // attention ID role_id (= role à upgrade)
+
         CaractHero::factory()->create([
             'niveau' => 1,
             'hp' => 8,
@@ -52,7 +55,7 @@ class CaractHeroSeeder extends Seeder
             'att' => 8,
             'def' => 12,
             'exp_requis' => 1000,
-            'role_id' => 2,
+            'role_id' => 3,
         ]);
 
 
@@ -64,7 +67,7 @@ class CaractHeroSeeder extends Seeder
             'att' => 7,
             'def' => 4,
             'exp_requis' => 500,
-            'role_id' => 3,
+            'role_id' => 2,
         ]);
         CaractHero::factory()->create([
             'niveau' => 2,
@@ -72,7 +75,7 @@ class CaractHeroSeeder extends Seeder
             'att' => 8,
             'def' => 4,
             'exp_requis' => 600,
-            'role_id' => 3,
+            'role_id' => 2,
         ]);
         CaractHero::factory()->create([
             'niveau' => 3,
@@ -80,7 +83,7 @@ class CaractHeroSeeder extends Seeder
             'att' => 9,
             'def' => 5,
             'exp_requis' => 800,
-            'role_id' => 3,
+            'role_id' => 2,
         ]);
         CaractHero::factory()->create([
             'niveau' => 4,
@@ -88,7 +91,7 @@ class CaractHeroSeeder extends Seeder
             'att' => 10,
             'def' => 6,
             'exp_requis' => 1000,
-            'role_id' => 3,
+            'role_id' => 2,
         ]);
         CaractHero::factory()->create([
             'niveau' => 5,

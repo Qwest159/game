@@ -27,6 +27,8 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/accueil', [AccueilController::class, 'index'])->name('accueil');
+
+    // création de compte
     Route::get('/new', [NewAccountController::class, 'index'])->name('new');
     Route::post('/new/creation', [NewAccountController::class, 'creation_compte'])->name('creation_compte');
 
@@ -37,7 +39,11 @@ Route::middleware([
     Route::post('/tour_info/update/{id_tour_user}/{id_tour_up}/{gold_requis}', [TourController::class, "update"])->name('tour_info.update');
 
     // ---------- CHATEAU ------------
-    Route::get('/chateau/{id}', [ChateauController::class, 'index'])->name('chateau');
+
+    Route::get('/chateau', [ChateauController::class, 'index'])->name('chateau');
+    Route::post('/chateau/vie/{hero_id}/{hp_full}', [ChateauController::class, 'restaurez_vie'])->name('restaurez_vie');
+
+    Route::post('/chateau/level_up/{hero_id}/{caract_hero_id}/{exp_requis}', [ChateauController::class, 'level_up'])->name('level_up');
     // --------- OUTSIDE ----------
     Route::get('/outside', [OutsideController::class, 'index'])->name('outside');
     Route::post('/outside/partir/', [OutsideController::class, 'partir'])->name('partir');

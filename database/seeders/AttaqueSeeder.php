@@ -74,28 +74,28 @@ class AttaqueSeeder extends Seeder
         Attaque::factory()->create([
             'nom' => 'Baguette simple',
             'type' => 'normal',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 1,
             'att' => 3,
         ]);
         Attaque::factory()->create([
             'nom' => 'KawaO',
             'type' => 'eau',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 1,
             'att' => 2,
         ]);
         Attaque::factory()->create([
             'nom' => 'Flamme',
             'type' => 'feu',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 1,
             'att' => 2,
         ]);
         Attaque::factory()->create([
             'nom' => "Flower",
             'type' => 'plante',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 1,
             'att' => 2,
         ]);
@@ -104,21 +104,21 @@ class AttaqueSeeder extends Seeder
         Attaque::factory()->create([
             'nom' => "Herbe",
             'type' => 'plante',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 3,
             'att' => 3,
         ]);
         Attaque::factory()->create([
             'nom' => "Feu follet",
             'type' => 'feu',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 3,
             'att' => 4,
         ]);
         Attaque::factory()->create([
             'nom' => "Baguette magique",
             'type' => 'normal',
-            'role_id' => 3,
+            'role_id' => 2,
             'niveau' => 4,
             'att' => 5,
         ]);

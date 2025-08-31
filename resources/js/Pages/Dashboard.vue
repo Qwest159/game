@@ -9,7 +9,7 @@ const props = defineProps(["tours", "tours_id_user"]);
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="accueil">
         <main id="accueil">
             <figure>
                 <img
@@ -21,7 +21,7 @@ const props = defineProps(["tours", "tours_id_user"]);
 
             <figure v-for="(tour, index) in tours" :class="`fig${index + 1}`">
                 <img
-                    :src="`storage ${tour.tour.img_path}`"
+                    :src="`storage${tour.tour.img_path}`"
                     alt=""
                     @click="
                         () =>
@@ -33,7 +33,7 @@ const props = defineProps(["tours", "tours_id_user"]);
 
                 <table class="rounded-b-xl text-lg">
                     <tbody>
-                        <tr class="non text-xl font-bold pb-2 m-auto">
+                        <tr class="skill text-xl font-bold pb-2 m-auto">
                             <td class="font-bold text-center">Niveau</td>
                             <td
                                 :class="tableau_niv_coul[tour.niveau]"
@@ -78,7 +78,7 @@ const props = defineProps(["tours", "tours_id_user"]);
                     id="chateau_img"
                     src="storage/ville/chateau.png"
                     alt=""
-                    @click="() => $inertia.get(route('tour_info'))"
+                    @click="() => $inertia.get(route('chateau'))"
                 />
             </figure>
         </main>

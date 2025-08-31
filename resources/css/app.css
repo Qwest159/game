@@ -34,19 +34,20 @@
         height: 27px !important;
         border-radius: 15px !important;
     }
-    table .non {
+    table .skill {
         font-size: 12px;
+        line-height: 22px;
         padding: 0 !important;
     }
-    tr:not(.non) {
+    tr:not(.skill) {
         @apply grid;
         @apply grid-cols-2;
     }
-    table tr:not(.non) td:nth-of-type(1) {
+    table tr:not(.skill) td:nth-of-type(1) {
         @apply font-bold;
         font-size: 12px;
     }
-    table tr:not(.non) td:nth-of-type(2) {
+    table tr:not(.skill) td:nth-of-type(2) {
         @apply pl-2;
         font-size: 12px;
     }
@@ -134,12 +135,16 @@
         @apply h-10;
     }
     .index_info_hero {
-        top: -5.4vh !important;
-        position: relative;
     }
 
     #message_info {
         font-size: 16px;
+    }
+    h1 {
+        font-size: 16px;
+    }
+    #section_chateau_hero {
+        @apply h-full;
     }
 }
 
@@ -182,14 +187,14 @@ table td#niveau {
     margin: auto;
     border-radius: 25px;
 }
-tr:not(.non) {
+tr:not(.skill) {
     @apply grid;
     @apply grid-cols-2;
 }
 table td:nth-of-type(1) {
     @apply font-bold;
 }
-tr:not(.non) td:nth-of-type(2) {
+tr:not(.skill) td:nth-of-type(2) {
     @apply pl-2;
 }
 /* LES TOURS  */
@@ -429,9 +434,6 @@ section#combat article:not(.info_monstre, #info_hero) {
 
 /* -------------  COMBAT --------------- */
 
-#arene_combat {
-    /* background-color: red; */
-}
 #barre_attaque button {
     padding: 0.2vw;
     border: 3px solid black;
@@ -525,4 +527,11 @@ main#newaccount h1 {
     @apply font-bold;
     @apply text-2xl;
     text-align: center;
+}
+
+/* ----- CHATEAU ----- */
+#section_chateau_hero {
+    @apply grid;
+    @apply grid-cols-2;
+    grid-template-columns: 10em 15em;
 }

@@ -31,7 +31,7 @@ class TourController extends Controller
         $tour_niveau = CaractTour::where('tour_id', $tour_perso->tour_id)->where('niveau', $tour_perso->niveau + 1)->with('tour')->first();
 
         // Retourner la vue avec les données
-        return Inertia::render('Tour/Tour_info', [
+        return Inertia::render('Tour/Index', [
             'tour_perso' => $tour_perso,
             'tour_niveau' => $tour_niveau,
             'tours_user_id' => $id->id,

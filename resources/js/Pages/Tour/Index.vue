@@ -41,19 +41,11 @@ function succes() {
 let form = useForm({
     id_tour_user: props.tours_user_id,
 });
-
-// console.log(tour_niveau[tour_perso.niveau]);
 </script>
 
 <template>
     <AppLayout title="Modification tour">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Modification tour
-            </h2>
-        </template>
-
-        <main class="pt-9 w-5/12 grid justify-center m-auto mb-5" id="update">
+        <main class="pt-20 w-5/12 grid justify-center m-auto mb-5" id="update">
             <section class="flex justify-between gap-6">
                 <figure class="">
                     <img
@@ -64,7 +56,7 @@ let form = useForm({
 
                     <table>
                         <tbody>
-                            <tr class="non text-xl font-bold pb-2 m-auto">
+                            <tr class="skill text-xl font-bold pb-2 m-auto">
                                 <td class="font-bold text-center">Niveau</td>
                                 <td
                                     :class="tableau_niv_coul[tour_perso.niveau]"
@@ -106,7 +98,7 @@ let form = useForm({
 
                     <table>
                         <tbody>
-                            <tr class="non text-xl font-bold pb-2 m-auto">
+                            <tr class="skill text-xl font-bold pb-2 m-auto">
                                 <td class="font-bold text-center">Niveau</td>
                                 <td
                                     :class="

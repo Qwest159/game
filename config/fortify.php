@@ -75,10 +75,12 @@ return [
     */
 
     'home' => function () {
+
         if (Auth::user()->new) {
             return '/new';
+        } else {
+            return '/accueil';
         }
-        return '/accueil';
     },
 
 

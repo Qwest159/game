@@ -81,8 +81,6 @@ function combat(index_monstre_choisi) {
     // Condition de victoire (tous les monstre tués)
     // ----------GAGNER--------
     if (Object.keys(tableau_combat_monstre.value).length === 0) {
-        // console.log("GAGNER");
-
         emit("carte_info", {
             index: props.niveau_bataille[1],
             img: props.niveau_bataille[0].img_path,
@@ -108,7 +106,6 @@ function combat(index_monstre_choisi) {
     // Condition pour perdre (hp du hero en dessous de 0)
 
     if (hp_hero.value <= 0) {
-        // console.log("PERDU");
         emit("gain_gagne_combat", {
             hp_restant: hp_hero.value,
             gain_gagne: { or: 0, exp: 0 },
@@ -135,8 +132,8 @@ function combat_hero(
         ? (attaque_faiblesse = attaque_choisi.value.att * 2)
         : (attaque_faiblesse = attaque_choisi.value.att);
 
-    // let attaque_totale = hero_caract.att + attaque_faiblesse;
-    let attaque_totale = 999;
+    let attaque_totale = hero_caract.att + attaque_faiblesse;
+    // let attaque_totale = 999;
 
     let att_restant = attaque_totale - monstre_choisi.def;
 
@@ -197,10 +194,10 @@ function fuite() {
                 </div> -->
                 <table class="rounded-b-xl">
                     <tbody>
-                        <tr class="non text-xl font m-auto pb-2">
+                        <tr class="skill text-xl font m-auto pb-2">
                             <td class="">{{ hero_user.role }}</td>
                         </tr>
-                        <tr class="non text-xl font pb-2 m-auto">
+                        <tr class="skill text-xl font pb-2 m-auto">
                             <td class="font-bold text-center">Niveau</td>
                             <td
                                 :class="tableau_niv_coul[hero_user.niveau]"
